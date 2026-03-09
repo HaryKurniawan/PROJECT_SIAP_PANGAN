@@ -6,6 +6,7 @@ import BottomNav from '@/components/BottomNav';
 import { useCekLaporan } from '@/lib/hooks';
 import { getTicketHistory, searchTicketHistory, updateTicketStatus } from '@/lib/ticket-storage';
 import { STATUS_LAPORAN } from '@/lib/schemas';
+import { formatDate } from '@/lib/utils';
 import type { TicketHistoryItem } from '@/lib/ticket-storage';
 
 export default function CekLaporanPage() {
@@ -50,12 +51,6 @@ export default function CekLaporanPage() {
   const statusInfo = data?.data?.status
     ? STATUS_LAPORAN[data.data.status as keyof typeof STATUS_LAPORAN]
     : null;
-
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('id-ID', {
-      day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
-  };
 
   return (
     <>

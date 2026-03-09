@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Modal, Input, InputNumber, Select } from 'antd';
 import toast from 'react-hot-toast';
 import { useHarga, useCreateHarga, useUpdateHarga, useDeleteHarga } from '@/lib/hooks';
-import { formatRupiah, formatDateShort } from '@/lib/utils';
+import { formatRupiah, formatDate } from '@/lib/utils';
 
 export default function AdminHargaPage() {
   const [search, setSearch] = useState('');
@@ -154,7 +154,7 @@ export default function AdminHargaPage() {
                         {item.status === 'normal' ? '✓ Normal' : '⚠ Tinggi'}
                       </span>
                     </td>
-                    <td className="text-sm text-gray-500">{formatDateShort(item.updatedAt)}</td>
+                    <td className="text-sm text-gray-500">{formatDate(item.updatedAt)}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button

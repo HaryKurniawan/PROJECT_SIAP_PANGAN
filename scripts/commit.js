@@ -8,10 +8,17 @@ async function promptCommit() {
       name: 'type',
       message: 'Pilih tipe commit:',
       choices: [
-        { name: 'feat:     Fitur baru', value: 'feat' },
-        { name: 'fix:      Perbaikan bug', value: 'fix' },
-        { name: 'docs:     Perubahan dokumentasi', value: 'docs' },
-        { name: 'chore:    Perubahan task, build, atau tooling', value: 'chore' }
+        { name: 'feat:      Fitur baru', value: 'feat' },
+        { name: 'fix:       Perbaikan bug', value: 'fix' },
+        { name: 'docs:      Perubahan dokumentasi', value: 'docs' },
+        { name: 'style:     Perubahan formatting, missing semi-colons, dll', value: 'style' },
+        { name: 'refactor:  Perubahan code bukan perbaikan bug atau fitur baru', value: 'refactor' },
+        { name: 'perf:      Perubahan code untuk meningkatkan performa', value: 'perf' },
+        { name: 'test:      Menambah atau memperbaiki test', value: 'test' },
+        { name: 'build:     Perubahan sistem build atau dependency eksternal', value: 'build' },
+        { name: 'ci:        Perubahan konfigurasi/script CI', value: 'ci' },
+        { name: 'chore:     Perubahan task, build, atau tooling (bukan src/test)', value: 'chore' },
+        { name: 'revert:    Membatalkan commit sebelumnya', value: 'revert' }
       ]
     },
     {

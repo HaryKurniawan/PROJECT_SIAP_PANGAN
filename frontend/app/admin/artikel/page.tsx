@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Modal, Input, Select } from 'antd';
 import toast from 'react-hot-toast';
 import { useArtikel, useCreateArtikel, useUpdateArtikel, useDeleteArtikel } from '@/lib/hooks';
-import { formatDateShort } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
 
 const { TextArea } = Input;
 
@@ -163,7 +163,7 @@ export default function AdminArtikelPage() {
                     <td>
                       <span className={`badge badge-${item.warna}`}>{item.warna}</span>
                     </td>
-                    <td className="text-sm text-gray-500">{formatDateShort(item.updatedAt)}</td>
+                    <td className="text-sm text-gray-500">{formatDate(item.updatedAt)}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button
