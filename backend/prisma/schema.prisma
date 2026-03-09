@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  nama      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("admins")
+}
+
+model Laporan {
+  id             Int         @id @default(autoincrement())
+  tiket          String      @unique
+  nama           String
+  noHp           String      @map("no_hp")
+  komoditas      String
+  namaToko       String?     @map("nama_toko")
+  alamat         String
+  kecamatan      String
+  kronologi      String
+  fotoBukti      String?     @map("foto_bukti")
+  status         String      @default("diterima")
+  catatanPetugas String?     @map("catatan_petugas")
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+  statusLogs     StatusLog[]
+
+  @@map("laporans")
+}
+
+model StatusLog {
+  id        Int      @id @default(autoincrement())
+  laporanId Int      @map("laporan_id")
+  status    String
+  catatan   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  laporan   Laporan  @relation(fields: [laporanId], references: [id], onDelete: Cascade)
+
+  @@map("status_logs")
+}
+
+model HargaPangan {
+  id        Int      @id @default(autoincrement())
+  nama      String
+  harga     Int
+  satuan    String
+  status    String   @default("normal")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("harga_pangans")
+}
+
+model Artikel {
+  id        Int      @id @default(autoincrement())
+  judul     String
+  isi       String
+  ikon      String   @default("book")
+  warna     String   @default("blue")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("artikels")
+}
