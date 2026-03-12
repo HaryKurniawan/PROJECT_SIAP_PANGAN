@@ -82,34 +82,37 @@ export default function LaporPage() {
 
         <main className="pt-16 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-10 min-h-[100dvh] flex items-center justify-center bg-gray-50">
           <div className="text-center px-5 py-10 max-w-[400px] w-full">
-            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner shadow-emerald-200">
-              <i className="fas fa-check text-4xl text-emerald-600"></i>
+            <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-5">
+              <i className="fas fa-check text-3xl text-emerald-500"></i>
             </div>
-            <h2 className="text-[22px] font-bold text-gray-900 mb-2 tracking-tight">
-              Laporan Berhasil Dikirim!
+            <h2 className="text-[20px] font-bold text-gray-900 mb-2 tracking-tight">
+              Laporan Terkirim
             </h2>
-            <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-              Simpan nomor tiket ini untuk melacak status laporan Anda
+            <p className="text-[13px] text-gray-500 mb-8 leading-relaxed font-medium">
+              Simpan nomor tiket ini untuk melacak status laporan Anda melalui menu Status Laporan.
             </p>
 
-            <div className="bg-blue-50 rounded-2xl p-6 mb-6 border-2 border-dashed border-blue-300 relative overflow-hidden group hover:border-blue-400 transition-colors">
-              <p className="text-xs text-blue-800/60 font-medium mb-1 relative z-10">Nomor Tiket</p>
-              <p className="text-[28px] font-black text-primary font-mono tracking-widest relative z-10">
+            <div className="bg-white rounded-[24px] p-8 mb-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] relative overflow-hidden group">
+              <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-2">Nomor Tiket</p>
+              <p className="text-[32px] font-bold text-primary font-mono tracking-widest relative z-10">
                 {successTicket}
               </p>
+              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <i className="fas fa-ticket-alt text-4xl rotate-12"></i>
+              </div>
             </div>
 
-            <div className="flex items-start gap-2.5 bg-emerald-50 border border-emerald-200 text-emerald-800 p-3.5 rounded-xl text-xs text-left mb-6">
-              <i className="fas fa-info-circle text-emerald-600 mt-0.5"></i>
-              <span className="leading-relaxed font-medium">Tiket tersimpan otomatis di riwayat browser Anda. Anda bisa cek status di menu &quot;Status Laporan&quot;.</span>
+            <div className="flex items-start gap-3 bg-blue-50/50 border border-blue-100 text-blue-800 p-4 rounded-2xl text-[12px] text-left mb-8">
+              <i className="fas fa-info-circle text-primary mt-0.5"></i>
+              <span className="leading-relaxed font-medium text-blue-700">Tiket ini juga telah tersimpan secara otomatis di riwayat laporan pada perangkat Anda.</span>
             </div>
 
             <div className="flex flex-col gap-3">
-              <Link href="/cek-laporan" className="flex items-center justify-center gap-2 w-full py-3.5 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold transition-all shadow-lg shadow-primary/30">
-                <i className="fas fa-search"></i> Cek Status Laporan
+              <Link href="/cek-laporan" className="flex items-center justify-center gap-2 w-full py-4 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold transition-all shadow-lg shadow-primary/20">
+                Cek Status Laporan
               </Link>
-              <Link href="/" className="flex items-center justify-center gap-2 w-full py-3.5 bg-white text-primary border-2 border-primary rounded-xl font-bold hover:bg-gray-50 transition-colors">
-                <i className="fas fa-home"></i> Kembali ke Beranda
+              <Link href="/" className="flex items-center justify-center gap-2 w-full py-3.5 bg-gray-50 text-gray-600 rounded-xl font-bold hover:bg-gray-100 transition-colors">
+                Kembali ke Beranda
               </Link>
             </div>
           </div>
@@ -142,7 +145,7 @@ export default function LaporPage() {
               <i className="fas fa-arrow-left"></i> Kembali
             </Link>
             <h2 className="text-2xl font-bold tracking-tight mb-1">Lapor Pelanggaran</h2>
-            <p className="text-sm text-blue-200/90">Isi formulir dengan lengkap dan jelas</p>
+            <p className="text-sm text-blue-200/90 font-medium">Mohon lengkapi formulir laporan di bawah ini</p>
           </div>
         </div>
 
@@ -153,7 +156,7 @@ export default function LaporPage() {
                 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Nama Lengkap <span className="text-red-500">*</span>
                   </label>
                   <input 
@@ -165,7 +168,7 @@ export default function LaporPage() {
 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Nomor HP/WA <span className="text-red-500">*</span>
                   </label>
                   <input 
@@ -177,7 +180,7 @@ export default function LaporPage() {
 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Komoditas <span className="text-red-500">*</span>
                   </label>
                   <input 
@@ -189,7 +192,7 @@ export default function LaporPage() {
 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Nama Toko / Distributor <span className="text-gray-400 text-[11px] font-normal">(opsional)</span>
                   </label>
                   <input 
@@ -200,7 +203,7 @@ export default function LaporPage() {
 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Alamat Lokasi <span className="text-red-500">*</span>
                   </label>
                   <textarea 
@@ -212,7 +215,7 @@ export default function LaporPage() {
 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Kecamatan <span className="text-red-500">*</span>
                   </label>
                   <select 
@@ -230,7 +233,7 @@ export default function LaporPage() {
 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Kronologi Kejadian <span className="text-red-500">*</span>
                   </label>
                   <textarea 
@@ -242,7 +245,7 @@ export default function LaporPage() {
 
                 {/* Field */}
                 <div>
-                  <label className="block text-[13px] font-bold text-gray-700 mb-1.5">
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
                     Foto Bukti <span className="text-gray-400 text-[11px] font-normal">(opsional)</span>
                   </label>
                   <input
@@ -256,15 +259,15 @@ export default function LaporPage() {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 bg-blue-50/50 border border-blue-100 text-blue-800 p-4 rounded-xl text-xs leading-relaxed font-medium">
-              <i className="fas fa-shield-alt text-primary mt-0.5 px-0.5"></i>
-              <span>Data Anda akan dijaga kerahasiaannya. Laporan diproses maks 1x24 jam.</span>
+            <div className="flex items-start gap-3 bg-blue-50/50 border border-blue-100 text-blue-800 p-5 rounded-2xl text-[12px] leading-relaxed font-medium">
+              <i className="fas fa-shield-alt text-primary/70 mt-0.5 px-0.5"></i>
+              <span>Data Anda akan dijaga kerahasiaannya. Laporan diproses maksimal 1x24 jam kerja.</span>
             </div>
 
             <button
               type="submit"
               disabled={createLaporan.isPending}
-              className="w-full py-4 px-6 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/25 disabled:opacity-70 disabled:cursor-not-allowed group active:scale-[0.98]"
+              className="w-full py-4 px-6 bg-primary hover:bg-primary-dark text-white rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 disabled:opacity-70 disabled:cursor-not-allowed group active:scale-[0.98]"
             >
               {createLaporan.isPending ? (
                 <>

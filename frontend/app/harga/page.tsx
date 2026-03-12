@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import BottomNav from '@/components/BottomNav';
 import { useHarga } from '@/lib/hooks';
-import { Search, Info, Clock, ChevronLeft, Wheat, Droplets, Package, Leaf, Egg } from 'lucide-react';
+import { Search, Info, Clock, ShieldCheck, Wheat, Droplets, Package, Leaf, Egg } from 'lucide-react';
 
 const CATEGORIES = [
   { id: 'semua', label: 'Semua', icon: Package },
@@ -39,43 +40,43 @@ export default function HargaPage() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-primary-dark to-primary shadow-lg h-16 px-4 flex items-center">
-        <div className="max-w-6xl w-full mx-auto flex items-center gap-3">
-          <Link href="/" className="w-10 h-10 bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-md rounded-[14px] flex items-center justify-center text-white">
-            <ChevronLeft className="w-6 h-6" strokeWidth={2.5} />
-          </Link>
-          <div>
-            <h1 className="text-white text-base font-bold tracking-tight leading-tight">SIAP PANGAN</h1>
-            <p className="text-blue-200 text-xs font-medium">Polres Brebes</p>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md h-[64px] px-6 flex items-center border-b border-gray-50/50">
+        <div className="max-w-6xl w-full mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 flex items-center justify-center text-primary bg-primary/5 rounded-xl">
+              <ShieldCheck className="w-5 h-5" strokeWidth={2.5} />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-gray-900 text-[15px] font-bold tracking-tight leading-none mb-0.5">SIAP PANGAN</span>
+              <span className="text-gray-400 text-[9px] font-bold tracking-widest uppercase">Kabupaten Brebes</span>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="pt-16 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-10 min-h-[100dvh] bg-gray-50">
-        <div className="bg-gradient-to-br from-primary-dark to-primary px-5 pt-6 pb-12 text-white relative">
-          <div className="absolute -bottom-px left-0 right-0 h-6 bg-gray-50 rounded-t-[24px]"></div>
-          
+      <main className="pt-16 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-10 min-h-[100dvh] bg-white">
+        <div className="px-5 pt-6 pb-2 relative">
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold tracking-tight mb-1">Harga Bahan Pokok</h2>
-            <p className="text-sm text-blue-200/90">Data diperbarui oleh petugas</p>
+            <h2 className="text-[18px] font-bold text-gray-900 tracking-tight mb-0.5">Harga Bahan Pokok</h2>
+            <p className="text-[11px] text-gray-400 font-medium">Data diperbarui secara berkala</p>
           </div>
         </div>
 
-        <div className="px-5 -mt-6 relative z-10 pb-8 max-w-2xl mx-auto">
-          {/* Search */}
-          <div className="relative mb-5 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" strokeWidth={2} />
+        <div className="px-5 pb-6 max-w-2xl mx-auto">
+          {/* Compact Search */}
+          <div className="relative mb-4">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" strokeWidth={2.5} />
             <input
               type="search"
-              placeholder="Cari komoditas... (beras, cabai, dll)"
+              placeholder="Cari komoditas..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-100/80 rounded-[18px] text-[14px] font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-900 placeholder:text-gray-400 placeholder:font-normal"
+              className="w-full pl-11 pr-4 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl text-[13px] font-medium focus:outline-none focus:ring-2 focus:ring-primary/5 focus:border-primary/20 transition-all text-gray-900 placeholder:text-gray-400"
             />
           </div>
 
-          {/* Categories */}
-          <div className="flex overflow-x-auto hide-scrollbar gap-2.5 pb-2 mb-4 -mx-5 px-5 snap-x">
+          {/* Clean Icon Categories */}
+          <div className="flex overflow-x-auto hide-scrollbar gap-2 pb-2 mb-4 -mx-5 px-5 snap-x">
             {CATEGORIES.map((cat) => {
               const Icon = cat.icon;
               const isActive = activeCategory === cat.id;
@@ -83,22 +84,22 @@ export default function HargaPage() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`snap-start flex flex-col items-center justify-center min-w-[72px] h-[72px] rounded-[18px] border shrink-0 transition-all duration-300
+                  className={`snap-start flex flex-col items-center justify-center min-w-[68px] h-[68px] rounded-[20px] border shrink-0 transition-all duration-300
                     ${isActive 
-                      ? 'bg-gradient-to-br from-blue-500 to-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/20 translate-y-[-2px]' 
-                      : 'bg-white border-gray-100/80 text-gray-500 hover:bg-gray-50'}`}
+                      ? 'bg-primary border-primary text-white shadow-sm' 
+                      : 'bg-white border-gray-100/80 text-gray-400 hover:bg-gray-50'}`}
                 >
-                  <Icon className={`w-6 h-6 mb-1.5 ${isActive ? 'text-white' : 'text-gray-400'}`} strokeWidth={isActive ? 2.5 : 2} />
-                  <span className={`text-[10px] font-bold tracking-wide ${isActive ? 'opacity-100' : 'opacity-80'}`}>{cat.label}</span>
+                  <Icon className={`w-5 h-5 mb-1.5 ${isActive ? 'text-white' : 'text-gray-400'}`} strokeWidth={2.5} />
+                  <span className={`text-[10px] font-bold tracking-tight ${isActive ? 'opacity-100' : 'opacity-80'}`}>{cat.label}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Info */}
-          <div className="flex items-start gap-3 bg-blue-50/50 border border-blue-100 text-blue-800 p-4 rounded-[18px] text-[13px] leading-relaxed mb-6">
-            <Info className="text-blue-500 mt-0.5 shrink-0 w-4 h-4" strokeWidth={2.5} />
-            <span className="font-medium opacity-90">Harga yang ditampilkan adalah harga wajar acuan di Kabupaten Brebes.</span>
+          {/* Compact Minimalist Info */}
+          <div className="flex items-center gap-2 text-gray-400 mb-6 border-b border-gray-50 pb-4">
+            <Info className="w-3.5 h-3.5" strokeWidth={2.5} />
+            <span className="text-[10px] font-medium italic lowercase tracking-tight">Harga acuan di Kabupaten Brebes dipantau berkala</span>
           </div>
 
           {isLoading ? (
@@ -160,6 +161,7 @@ export default function HargaPage() {
         </div>
       </main>
 
+      <BottomNav />
     </>
   );
 }

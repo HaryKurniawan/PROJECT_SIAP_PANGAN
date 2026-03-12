@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Providers from "./providers";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const poppins = Poppins({ 
+  subsets: ["latin"], 
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-poppins" 
+});
 
 export const metadata: Metadata = {
   title: "SIAP PANGAN BRE উল্লেখযোগ্যBES — Polres Brebes",
@@ -27,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={cn("font-sans", inter.variable)}>
+    <html lang="id" className={cn("font-poppins", poppins.variable)}>
       <head>
         <link
           rel="stylesheet"

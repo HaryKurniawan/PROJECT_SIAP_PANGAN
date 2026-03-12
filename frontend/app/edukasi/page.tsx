@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
 import { useArtikel } from '@/lib/hooks';
+import { ShieldCheck, BookOpen, ChevronRight } from 'lucide-react';
 
 const WARNA_MAP: Record<string, { bg: string; text: string; light: string }> = {
   green: { bg: 'bg-emerald-100', text: 'text-emerald-600', light: 'bg-emerald-50' },
@@ -16,7 +17,7 @@ const WARNA_MAP: Record<string, { bg: string; text: string; light: string }> = {
 
 export default function EdukasiPage() {
   const { data, isLoading } = useArtikel();
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const router = useRouter();
 
   const artikelList = data?.data || [];
 
@@ -43,51 +44,50 @@ export default function EdukasiPage() {
               <i className="fas fa-arrow-left"></i> Kembali
             </Link>
             <h2 className="text-2xl font-bold tracking-tight mb-1">Edukasi Pangan</h2>
-            <p className="text-sm text-blue-200/90">Pelajari tentang keamanan dan stabilitas pangan</p>
+            <p className="text-sm text-blue-200/90 font-medium">Pelajari tentang keamanan dan stabilitas pangan</p>
           </div>
         </div>
 
-        <div className="px-5 -mt-6 relative z-10 pb-8 max-w-2xl mx-auto">
+        <div className="px-5 pb-8 max-w-2xl mx-auto">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-10 gap-3">
               <div className="w-8 h-8 border-3 border-gray-200 border-t-primary rounded-full animate-spin"></div>
-              <span className="text-sm font-medium text-gray-500">Memuat artikel...</span>
+              <span className="text-[12px] font-medium text-gray-400">Memuat edukasi...</span>
             </div>
           ) : artikelList.length === 0 ? (
-            <div className="text-center py-12 px-5 bg-white rounded-[20px] border border-gray-100 shadow-sm border-dashed">
-              <div className="w-16 h-16 bg-gray-50 flex items-center justify-center rounded-full mx-auto mb-4">
-                <i className="fas fa-book text-2xl text-gray-300"></i>
+            <div className="text-center py-12 px-5 bg-gray-50/50 rounded-3xl border border-gray-100 border-dashed">
+              <div className="w-16 h-16 bg-white flex items-center justify-center rounded-full mx-auto mb-4 border border-gray-100">
+                <BookOpen className="w-6 h-6 text-gray-300" />
               </div>
-              <h3 className="text-[15px] font-bold text-gray-800 mb-1">Belum ada artikel</h3>
-              <p className="text-[13px] text-gray-500">Artikel edukasi akan segera ditambahkan</p>
+              <h3 className="text-[14px] font-bold text-gray-800 mb-1">Belum ada artikel</h3>
+              <p className="text-[12px] text-gray-400">Arkhiv edukasi akan segera ditambahkan</p>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
               {artikelList.map((artikel: any) => {
                 const colors = WARNA_MAP[artikel.warna] || WARNA_MAP.blue;
-                const isExpanded = expandedId === artikel.id;
 
                 return (
                   <div
                     key={artikel.id}
-                    onClick={() => setExpandedId(isExpanded ? null : artikel.id)}
-                    className="bg-white rounded-[20px] p-5 md:p-6 border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.03)] cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group"
+                    onClick={() => router.push(`/edukasi/${artikel.id}`)}
+                    className="bg-white rounded-3xl p-5 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] cursor-pointer hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 group"
                   >
                     <div className="flex gap-4 items-start">
                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 text-[20px] transition-transform duration-300 group-hover:scale-110 ${colors.bg} ${colors.text}`}>
                         <i className={`fas fa-${artikel.ikon || 'book'}`}></i>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-[15px] font-extrabold text-gray-900 mb-1.5 leading-tight group-hover:text-primary transition-colors">
+                        <h4 className="text-[15px] font-bold text-gray-900 mb-1 leading-tight group-hover:text-primary transition-colors">
                           {artikel.judul}
                         </h4>
-                        <p className={`text-[13px] text-gray-600 leading-relaxed transition-all ${isExpanded ? 'block' : 'line-clamp-2'}`}>
+                        <p className="text-[12px] text-gray-500 leading-relaxed line-clamp-2 font-medium">
                           {artikel.isi}
                         </p>
                         
-                        <div className={`flex items-center gap-1.5 mt-3 text-[12px] font-bold transition-colors ${isExpanded ? 'text-gray-500' : 'text-primary group-hover:text-primary-light'}`}>
-                          {isExpanded ? 'Lebih sedikit' : 'Baca selengkapnya'}
-                          <i className={`fas fa-chevron-${isExpanded ? 'up' : 'down'} text-[10px]`}></i>
+                        <div className="flex items-center gap-1 mt-3 text-[11px] font-bold text-primary group-hover:text-primary-light transition-colors">
+                          Baca selengkapnya
+                          <ChevronRight className="w-3 h-3 mt-0.5" />
                         </div>
                       </div>
                     </div>
@@ -98,6 +98,7 @@ export default function EdukasiPage() {
           )}
         </div>
       </main>
+
 
       <BottomNav />
     </>
