@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "SIAP PANGAN BRE উল্লেখযোগ্যBES — Polres Brebes",
+  title: "SIAP PANGAN BREBES — Polres Brebes",
   description:
     "Sistem Informasi & Aksi Pengawasan Pangan Berbasis Masyarakat — Polres Brebes. Laporkan pelanggaran pangan, pantau harga, dan lacak status laporan.",
   keywords: "siap pangan, brebes, polri, polres brebes, pelaporan pangan, harga pangan",
