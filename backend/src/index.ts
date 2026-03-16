@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import rateLimit from 'express-rate-limit';
 
 import { apiKeyMiddleware } from './middleware/apiKey';
 import laporanRoutes from './routes/laporan';
@@ -13,14 +14,31 @@ import artikelRoutes from './routes/artikel';
 import adminRoutes from './routes/admin';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
+
+// Rate limiter global
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 menit
+  max: 1000, // Limit setiap IP 1000 request per 15 menit agar tidak menyulitkan
+  message: {
+    success: false,
+    message: 'Terlalu banyak permintaan, silakan coba lagi setelah beberapa saat.',
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001'],
-  credentials: true,
-}));
+
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    credentials: true,
+  })
+);
+
+app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -39,14 +57,26 @@ app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', message: 'SIAP PANGAN BREBES API is running' });
+  res.json({
+    status: 'ok',
+    message: 'SIAP PANGAN BREBES API is running',
+  });
 });
 
 // Error handler
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ success: false, message: 'Terjadi kesalahan pada server' });
-});
+app.use(
+  (
+    err: Error,
+    _req: express.Request,
+    res: express.Response
+  ) => {
+    console.error(err.stack);
+    res.status(500).json({
+      success: false,
+      message: 'Terjadi kesalahan pada server',
+    });
+  }
+);
 
 app.listen(PORT, () => {
   console.log(`🚀 SIAP PANGAN BREBES API running on port ${PORT}`);
