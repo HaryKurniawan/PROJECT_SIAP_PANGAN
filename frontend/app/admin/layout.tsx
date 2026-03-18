@@ -11,7 +11,7 @@ const sidebarLinks = [
   { href: '/admin/laporan', icon: FileText, label: 'Laporan' },
   { href: '/admin/harga', icon: Tags, label: 'Harga Pangan' },
   { href: '/admin/artikel', icon: Newspaper, label: 'Artikel Edukasi' },
-  { href: '/admin/qr-generator', icon: QrCode, label: 'QR Generator' },
+  // { href: '/admin/qr-generator', icon: QrCode, label: 'QR Generator' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
