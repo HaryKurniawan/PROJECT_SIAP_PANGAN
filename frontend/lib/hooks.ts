@@ -105,6 +105,8 @@ export function useAdminLaporan(params?: {
   status?: string;
   kecamatan?: string;
   search?: string;
+  startDate?: string;
+  endDate?: string;
   page?: number;
   limit?: number;
 }) {

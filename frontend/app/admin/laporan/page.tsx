@@ -1,7 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
 import { Modal, Select } from 'antd';
+
+dayjs.locale('id');
 import toast from 'react-hot-toast';
 import { useAdminLaporan, useUpdateStatusLaporan, useDeleteLaporan } from '@/lib/hooks';
 import { STATUS_LAPORAN, KECAMATAN_BREBES } from '@/lib/schemas';
@@ -26,7 +31,7 @@ import {
 } from 'lucide-react';
 
 export default function AdminLaporanPage() {
-  const [filters, setFilters] = useState({ status: '', kecamatan: '', search: '', page: 1 });
+  const [filters, setFilters] = useState({ status: '', kecamatan: '', search: '', startDate: '', endDate: '', page: 1 });
   const [selectedLaporan, setSelectedLaporan] = useState<any>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
@@ -102,15 +107,17 @@ export default function AdminLaporanPage() {
             <Filter className="w-4 h-4 text-[#3a5dcf]" strokeWidth={2.5} />
             <h3 className="text-sm font-bold text-gray-900">Filter Pencarian</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            <div className="relative h-[46px]">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <Search className="w-4 h-4 text-gray-300" />
+              </div>
               <input
                 type="search"
                 placeholder="Cari tiket, nama, komoditas..."
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })}
-                className="w-full pl-11 pr-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl text-[14px] focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all text-gray-900 placeholder:text-gray-400"
+                className="w-full h-full pl-11 pr-4 bg-gray-50/50 border border-gray-100 rounded-xl text-[14px] focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all text-gray-900 placeholder:text-gray-400"
               />
             </div>
             
@@ -142,6 +149,49 @@ export default function AdminLaporanPage() {
                   <Select.Option key={kec} value={kec}>{kec}</Select.Option>
                 ))}
               </Select>
+            </div>
+
+            <div className="relative space-y-3 lg:col-span-3 md:col-span-2 xl:col-span-2">
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                   <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Dari</div>
+                   <input
+                    type="date"
+                    value={filters.startDate}
+                    onChange={(e) => setFilters({ ...filters, startDate: e.target.value, page: 1 })}
+                    className="w-full pl-11 pr-3 h-[42px] bg-gray-50/50 border border-gray-100 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all font-bold text-gray-900 appearance-none"
+                  />
+                </div>
+                <div className="relative flex-1">
+                   <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-400 uppercase tracking-tighter">S/D</div>
+                   <input
+                    type="date"
+                    value={filters.endDate}
+                    onChange={(e) => setFilters({ ...filters, endDate: e.target.value, page: 1 })}
+                    className="w-full pl-11 pr-3 h-[42px] bg-gray-50/50 border border-gray-100 rounded-xl text-[12px] focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all font-bold text-gray-900 appearance-none"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {[
+                  { label: 'Hari Ini', start: dayjs().format('YYYY-MM-DD'), end: dayjs().format('YYYY-MM-DD') },
+                  { label: 'Bulan Ini', start: dayjs().startOf('month').format('YYYY-MM-DD'), end: dayjs().endOf('month').format('YYYY-MM-DD') },
+                  { label: 'Bulan Lalu', start: dayjs().subtract(1, 'month').startOf('month').format('YYYY-MM-DD'), end: dayjs().subtract(1, 'month').endOf('month').format('YYYY-MM-DD') },
+                  { label: 'Hapus', start: '', end: '' }
+                ].map((btn) => (
+                  <button
+                    key={btn.label}
+                    onClick={() => setFilters({ ...filters, startDate: btn.start, endDate: btn.end, page: 1 })}
+                    className={`py-2 rounded-xl text-[11px] font-bold transition-all border text-center
+                      ${(filters.startDate === btn.start && filters.endDate === btn.end) 
+                        ? 'bg-[#3a5dcf] text-white border-[#3a5dcf] shadow-sm ring-4 ring-blue-50' 
+                        : 'bg-white text-gray-500 border-gray-100 hover:border-[#3a5dcf]/30 hover:text-[#3a5dcf] hover:bg-blue-50/30'
+                      }`}
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -353,11 +403,14 @@ export default function AdminLaporanPage() {
             {selectedLaporan.fotoBukti && (
               <div className="space-y-2">
                 <p className="text-[13px] font-bold text-gray-900">Foto Bukti Lampiran</p>
-                <div className="bg-gray-50 p-3 rounded-[24px] border border-gray-100 inline-block overflow-hidden">
-                  <img
+                <div className="bg-gray-50 p-3 rounded-[24px] border border-gray-100 inline-block overflow-hidden w-full">
+                  <Image
                     src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${selectedLaporan.fotoBukti}`}
                     alt="Bukti Laporan"
+                    width={800}
+                    height={400}
                     className="rounded-[18px] max-h-80 w-full object-cover shadow-sm hover:scale-[1.02] transition-transform duration-500 grayscale-[0.2] hover:grayscale-0"
+                    unoptimized
                   />
                 </div>
               </div>
@@ -453,6 +506,10 @@ export default function AdminLaporanPage() {
         .admin-modern-modal .ant-modal-content {
           border-radius: 32px;
           padding: 24px;
+        }
+        .hide-year-nav .ant-picker-header-super-prev-btn,
+        .hide-year-nav .ant-picker-header-super-next-btn {
+          display: none !important;
         }
       `}</style>
     </div>

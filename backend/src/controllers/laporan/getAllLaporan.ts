@@ -1,14 +1,14 @@
 import { Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import type { AuthRequest } from '../../types';
 
 const prisma = new PrismaClient();
 
 export default async function getAllLaporan(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const { status, kecamatan, search, page = '1', limit = '20' } = req.query as Record<string, string>;
+    const { status, kecamatan, search, startDate, endDate, page = '1', limit = '20' } = req.query as Record<string, string>;
 
-    const where: any = {};
+    const where: Prisma.LaporanWhereInput = {};
     if (status) where.status = status;
     if (kecamatan) where.kecamatan = kecamatan;
     if (search) {
@@ -17,6 +17,16 @@ export default async function getAllLaporan(req: AuthRequest, res: Response): Pr
         { nama: { contains: search, mode: 'insensitive' } },
         { komoditas: { contains: search, mode: 'insensitive' } },
       ];
+    }
+
+    if (startDate || endDate) {
+      where.createdAt = {};
+      if (startDate) where.createdAt.gte = new Date(startDate);
+      if (endDate) {
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+        where.createdAt.lte = end;
+      }
     }
 
     const skip = (parseInt(page) - 1) * parseInt(limit);

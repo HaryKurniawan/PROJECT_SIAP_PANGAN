@@ -8,13 +8,13 @@ async function main() {
   console.log('🌱 Seeding database...');
 
   // Admin default
-  const hashedPassword = await bcrypt.hash('admin123', 10);
+  const hashedPassword = await bcrypt.hash('password123', 10);
   await prisma.admin.upsert({
     where: { username: 'admin' },
     update: {},
     create: { username: 'admin', password: hashedPassword, nama: 'Administrator' },
   });
-  console.log('✅ Admin created: admin / admin123');
+  console.log('✅ Admin created: admin / password123');
 
   // Harga Pangan
   const hargaData = [
