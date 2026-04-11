@@ -67,7 +67,7 @@ export default function AdminLaporanPage() {
       });
       toast.success('Status berhasil diperbarui');
       setIsStatusOpen(false);
-    } catch (err: Record<string, any>) {
+    } catch (err: any) {
       toast.error(err.response?.data?.message || 'Gagal update status');
     }
   };

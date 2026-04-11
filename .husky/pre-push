@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "------------------------------------------------"
+echo "🔍 [PRE-PUSH] Menjalankan Verifikasi Build..."
+echo "------------------------------------------------"
+
+# Build Backend
+echo "📦 Membangun Backend..."
+cd backend && npm run build
+if [ $? -ne 0 ]; then
+  echo "❌ Error: Build Backend GAGAL. Push dibatalkan."
+  exit 1
+fi
+cd ..
+
+# Build Frontend
+echo "🚀 Membangun Frontend..."
+cd frontend && npm run build
+if [ $? -ne 0 ]; then
+  echo "❌ Error: Build Frontend GAGAL. Push dibatalkan."
+  exit 1
+fi
+cd ..
+
+echo "------------------------------------------------"
+echo "✅ Semua build berhasil! Melanjutkan push..."
+echo "------------------------------------------------"
