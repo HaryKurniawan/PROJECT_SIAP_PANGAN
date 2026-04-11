@@ -2,6 +2,8 @@ import { Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { generateTiket } from '../../utils/ticket';
 import type { AuthRequest } from '../../types';
+import { supabase } from '../../utils/supabase';
+import path from 'path';
 
 const prisma = new PrismaClient();
 
@@ -16,13 +18,36 @@ export default async function createLaporan(req: AuthRequest, res: Response): Pr
 
     const tiket = await generateTiket();
     const file = req.file as Express.Multer.File | undefined;
+    let fotoBuktiUrl = null;
+
+    if (file) {
+      const fileName = `bukti-${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(file.originalname)}`;
+      const { error } = await supabase.storage
+        .from(process.env.SUPABASE_BUCKET_LAPORAN || 'foto_laporan')
+        .upload(fileName, file.buffer, {
+          contentType: file.mimetype,
+          upsert: true,
+        });
+
+      if (error) {
+        console.error('Supabase upload error:', error);
+        res.status(500).json({ success: false, message: 'Gagal mengupload foto bukti.' });
+        return;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from(process.env.SUPABASE_BUCKET_LAPORAN || 'foto_laporan')
+        .getPublicUrl(fileName);
+
+      fotoBuktiUrl = publicUrl;
+    }
 
     const laporan = await prisma.laporan.create({
       data: {
         tiket, nama, noHp, komoditas,
         namaToko: namaToko || null,
         alamat, kecamatan, kronologi,
-        fotoBukti: file ? `/uploads/${file.filename}` : null,
+        fotoBukti: fotoBuktiUrl,
         status: 'diterima',
         statusLogs: { create: { status: 'diterima', catatan: 'Laporan diterima oleh sistem' } },
       },

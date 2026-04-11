@@ -4,7 +4,7 @@ import type { AuthRequest } from '../../types';
 
 const prisma = new PrismaClient();
 
-const VALID_STATUSES = ['diterima', 'diverifikasi', 'diproses', 'selesai'] as const;
+const VALID_STATUSES = ['diterima', 'diverifikasi', 'diproses', 'selesai', 'ditolak'] as const;
 
 export default async function updateStatusLaporan(req: AuthRequest, res: Response): Promise<void> {
   try {

@@ -47,7 +47,7 @@ export type ArtikelFormData = z.infer<typeof artikelSchema>;
 
 // Zod schema update status laporan (admin)
 export const updateStatusSchema = z.object({
-  status: z.enum(['diterima', 'diverifikasi', 'diproses', 'selesai']),
+  status: z.enum(['diterima', 'diverifikasi', 'diproses', 'selesai', 'ditolak']),
   catatan: z.string().optional(),
 });
 
@@ -80,4 +80,5 @@ export const STATUS_LAPORAN = {
   diverifikasi: { label: 'Diverifikasi', color: 'yellow', icon: 'search' },
   diproses: { label: 'Diproses', color: 'orange', icon: 'hourglass-half' },
   selesai: { label: 'Selesai', color: 'green', icon: 'check-circle' },
+  ditolak: { label: 'Ditolak', color: 'red', icon: 'x-circle' },
 } as const;

@@ -4,7 +4,7 @@ import { useAdminStats, useAdminLaporan } from '@/lib/hooks';
 import { STATUS_LAPORAN } from '@/lib/schemas';
 import { formatDate } from '@/lib/utils';
 import Link from 'next/link';
-import { FileText, Inbox, Clock, CheckCircle, TrendingUp, ChevronRight, Eye } from 'lucide-react';
+import { FileText, Inbox, Clock, CheckCircle, TrendingUp, ChevronRight, Eye, XCircle } from 'lucide-react';
 
 export default function AdminDashboardPage() {
   const { data, isLoading } = useAdminStats();
@@ -26,6 +26,7 @@ export default function AdminDashboardPage() {
     { label: 'Diterima', value: stats?.statusCount?.diterima || 0, icon: Inbox, gradient: 'from-blue-500 to-blue-600', bg: 'bg-blue-50', iconColor: 'text-blue-500' },
     { label: 'Diproses', value: (stats?.statusCount?.diverifikasi || 0) + (stats?.statusCount?.diproses || 0), icon: Clock, gradient: 'from-amber-500 to-amber-600', bg: 'bg-amber-50', iconColor: 'text-amber-500' },
     { label: 'Selesai', value: stats?.statusCount?.selesai || 0, icon: CheckCircle, gradient: 'from-emerald-500 to-emerald-600', bg: 'bg-emerald-50', iconColor: 'text-emerald-600' },
+    { label: 'Ditolak', value: stats?.statusCount?.ditolak || 0, icon: XCircle, gradient: 'from-rose-500 to-rose-600', bg: 'bg-rose-50', iconColor: 'text-rose-600' },
   ];
 
   return (
@@ -37,7 +38,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -71,7 +72,7 @@ export default function AdminDashboardPage() {
           <div>
             {stats?.laporanTerbaru?.length > 0 ? (
               <div className="divide-y divide-gray-50">
-                {stats.laporanTerbaru.map((lap: any) => {
+                {stats.laporanTerbaru.map((lap: Record<string, any>) => {
                   const statusInfo = STATUS_LAPORAN[lap.status as keyof typeof STATUS_LAPORAN];
                   return (
                     <div key={lap.id} className="px-5 py-4 hover:bg-gray-50/50 transition-colors">
@@ -116,7 +117,7 @@ export default function AdminDashboardPage() {
           <div className="p-5">
             {stats?.perKecamatan?.length > 0 ? (
               <div className="space-y-3">
-                {stats.perKecamatan.map((item: any) => {
+                {stats.perKecamatan.map((item: Record<string, any>) => {
                   const maxVal = stats.perKecamatan[0]?.jumlah || 1;
                   const pct = (item.jumlah / maxVal) * 100;
                   return (
@@ -182,7 +183,7 @@ export default function AdminDashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {laporanList.map((lap: any) => {
+                {laporanList.map((lap: Record<string, any>) => {
                   const statusInfo = STATUS_LAPORAN[lap.status as keyof typeof STATUS_LAPORAN];
                   return (
                     <tr key={lap.id} className="hover:bg-blue-50/30 transition-colors">

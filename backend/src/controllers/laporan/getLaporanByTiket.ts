@@ -23,7 +23,7 @@ export default async function getLaporanByTiket(req: AuthRequest, res: Response)
       data: {
         tiket: laporan.tiket, komoditas: laporan.komoditas, kecamatan: laporan.kecamatan,
         status: laporan.status, createdAt: laporan.createdAt, updatedAt: laporan.updatedAt,
-        statusLogs: ((laporan as any).statusLogs || []).map((log: any) => ({
+        statusLogs: (laporan.statusLogs || []).map((log) => ({
           status: log.status, catatan: log.catatan, createdAt: log.createdAt,
         })),
       },

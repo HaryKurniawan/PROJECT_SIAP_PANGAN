@@ -6,10 +6,7 @@ import { createLaporan, getLaporanByTiket, getAllLaporan, getLaporanById, update
 
 const router = Router();
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, path.join(__dirname, '..', '..', 'uploads')),
-  filename: (_req, file, cb) => cb(null, `bukti-${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(file.originalname)}`),
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage,
@@ -24,11 +21,11 @@ const upload = multer({
   },
 });
 
-router.post('/', upload.single('fotoBukti'), createLaporan as any);
-router.get('/tiket/:tiket', getLaporanByTiket as any);
-router.get('/', authMiddleware as any, getAllLaporan as any);
-router.get('/:id', authMiddleware as any, getLaporanById as any);
-router.patch('/:id/status', authMiddleware as any, updateStatusLaporan as any);
-router.delete('/:id', authMiddleware as any, deleteLaporan as any);
+router.post('/', upload.single('fotoBukti'), createLaporan);
+router.get('/tiket/:tiket', getLaporanByTiket);
+router.get('/', authMiddleware, getAllLaporan);
+router.get('/:id', authMiddleware, getLaporanById);
+router.patch('/:id/status', authMiddleware, updateStatusLaporan);
+router.delete('/:id', authMiddleware, deleteLaporan);
 
 export default router;

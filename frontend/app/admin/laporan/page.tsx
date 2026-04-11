@@ -32,7 +32,7 @@ import {
 
 export default function AdminLaporanPage() {
   const [filters, setFilters] = useState({ status: '', kecamatan: '', search: '', startDate: '', endDate: '', page: 1 });
-  const [selectedLaporan, setSelectedLaporan] = useState<any>(null);
+  const [selectedLaporan, setSelectedLaporan] = useState<Record<string, any> | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [newStatus, setNewStatus] = useState('');
@@ -45,12 +45,12 @@ export default function AdminLaporanPage() {
   const laporanList = data?.data || [];
   const pagination = data?.pagination;
 
-  const openDetail = (lap: any) => {
+  const openDetail = (lap: Record<string, any>) => {
     setSelectedLaporan(lap);
     setIsDetailOpen(true);
   };
 
-  const openUpdateStatus = (lap: any) => {
+  const openUpdateStatus = (lap: Record<string, any>) => {
     setSelectedLaporan(lap);
     setNewStatus(lap.status);
     setCatatan('');
@@ -67,7 +67,7 @@ export default function AdminLaporanPage() {
       });
       toast.success('Status berhasil diperbarui');
       setIsStatusOpen(false);
-    } catch (err: any) {
+    } catch (err: Record<string, any>) {
       toast.error(err.response?.data?.message || 'Gagal update status');
     }
   };
@@ -227,7 +227,7 @@ export default function AdminLaporanPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {laporanList.map((lap: any) => {
+                  {laporanList.map((lap: Record<string, any>) => {
                     const statusInfo = STATUS_LAPORAN[lap.status as keyof typeof STATUS_LAPORAN];
                     return (
                       <tr key={lap.id} className="hover:bg-gray-50/30 transition-colors group">
@@ -255,6 +255,7 @@ export default function AdminLaporanPage() {
                             ${statusInfo?.color === 'yellow' && 'bg-amber-50 text-amber-600 border-amber-100'}
                             ${statusInfo?.color === 'orange' && 'bg-orange-50 text-orange-600 border-orange-100'}
                             ${statusInfo?.color === 'blue' && 'bg-blue-50 text-blue-600 border-blue-100'}
+                            ${statusInfo?.color === 'red' && 'bg-rose-50 text-rose-600 border-rose-100'}
                             ${!statusInfo?.color && 'bg-gray-50 text-gray-600 border-gray-200'}
                           `}>
                             <span className={`w-1.5 h-1.5 rounded-full mr-1.5 animate-pulse
@@ -262,6 +263,7 @@ export default function AdminLaporanPage() {
                                ${statusInfo?.color === 'yellow' && 'bg-amber-500'}
                                ${statusInfo?.color === 'orange' && 'bg-orange-500'}
                                ${statusInfo?.color === 'blue' && 'bg-blue-500'}
+                               ${statusInfo?.color === 'red' && 'bg-rose-500'}
                                ${!statusInfo?.color && 'bg-gray-400'}
                             `}></span>
                             {statusInfo?.label || lap.status}
@@ -405,7 +407,10 @@ export default function AdminLaporanPage() {
                 <p className="text-[13px] font-bold text-gray-900">Foto Bukti Lampiran</p>
                 <div className="bg-gray-50 p-3 rounded-[24px] border border-gray-100 inline-block overflow-hidden w-full">
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${selectedLaporan.fotoBukti}`}
+                    src={selectedLaporan.fotoBukti.startsWith('http') 
+                      ? selectedLaporan.fotoBukti 
+                      : `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${selectedLaporan.fotoBukti}`
+                    }
                     alt="Bukti Laporan"
                     width={800}
                     height={400}
