@@ -8,7 +8,7 @@ async function updateArtikel(req, res) {
         const { id } = req.params;
         const { judul, isi, ikon, warna } = req.body;
         const updated = await prisma.artikel.update({
-            where: { id: parseInt(id) },
+            where: { id: parseInt(id, 10) },
             data: { judul: judul || undefined, isi: isi || undefined, ikon: ikon || undefined, warna: warna || undefined },
         });
         res.json({ success: true, message: 'Artikel diperbarui.', data: updated });

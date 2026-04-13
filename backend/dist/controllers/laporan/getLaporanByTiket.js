@@ -7,7 +7,7 @@ async function getLaporanByTiket(req, res) {
     try {
         const { tiket } = req.params;
         const laporan = await prisma.laporan.findUnique({
-            where: { tiket },
+            where: { tiket: tiket },
             include: { statusLogs: { orderBy: { createdAt: 'desc' } } },
         });
         if (!laporan) {
@@ -19,7 +19,7 @@ async function getLaporanByTiket(req, res) {
             data: {
                 tiket: laporan.tiket, komoditas: laporan.komoditas, kecamatan: laporan.kecamatan,
                 status: laporan.status, createdAt: laporan.createdAt, updatedAt: laporan.updatedAt,
-                statusLogs: laporan.statusLogs.map((log) => ({
+                statusLogs: (laporan.statusLogs || []).map((log) => ({
                     status: log.status, catatan: log.catatan, createdAt: log.createdAt,
                 })),
             },

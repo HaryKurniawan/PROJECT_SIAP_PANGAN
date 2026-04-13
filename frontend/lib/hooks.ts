@@ -9,7 +9,7 @@ import type { LaporanFormData, LoginFormData, HargaFormData, ArtikelFormData } f
 /** Buat laporan baru */
 export function useCreateLaporan() {
   return useMutation({
-    mutationFn: async (data: LaporanFormData & { fotoBukti?: File }) => {
+    mutationFn: async (data: LaporanFormData & { fotoBukti?: File, fotoBukti2?: File }) => {
       const formData = new FormData();
       formData.append('nama', data.nama);
       formData.append('noHp', data.noHp);
@@ -19,6 +19,7 @@ export function useCreateLaporan() {
       formData.append('kronologi', data.kronologi);
       if (data.namaToko) formData.append('namaToko', data.namaToko);
       if (data.fotoBukti) formData.append('fotoBukti', data.fotoBukti);
+      if (data.fotoBukti2) formData.append('fotoBukti2', data.fotoBukti2);
 
       const res = await api.post('/laporan', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -135,8 +136,16 @@ export function useAdminLaporanDetail(id: number) {
 export function useUpdateStatusLaporan() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, status, catatan }: { id: number; status: string; catatan?: string }) => {
-      const res = await api.patch(`/laporan/${id}/status`, { status, catatan });
+    mutationFn: async ({ id, status, catatan, tindakLanjutKeterangan, tindakLanjutFoto }: { id: number; status: string; catatan?: string; tindakLanjutKeterangan?: string; tindakLanjutFoto?: File }) => {
+      const formData = new FormData();
+      formData.append('status', status);
+      if (catatan) formData.append('catatan', catatan);
+      if (tindakLanjutKeterangan) formData.append('tindakLanjutKeterangan', tindakLanjutKeterangan);
+      if (tindakLanjutFoto) formData.append('tindakLanjutFoto', tindakLanjutFoto);
+
+      const res = await api.patch(`/laporan/${id}/status`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       return res.data;
     },
     onSuccess: () => {

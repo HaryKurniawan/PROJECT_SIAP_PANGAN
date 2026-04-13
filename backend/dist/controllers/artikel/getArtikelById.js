@@ -6,7 +6,7 @@ const prisma = new client_1.PrismaClient();
 async function getArtikelById(req, res) {
     try {
         const { id } = req.params;
-        const artikel = await prisma.artikel.findUnique({ where: { id: parseInt(id) } });
+        const artikel = await prisma.artikel.findUnique({ where: { id: parseInt(id, 10) } });
         if (!artikel) {
             res.status(404).json({ success: false, message: 'Artikel tidak ditemukan.' });
             return;

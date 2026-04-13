@@ -7,7 +7,7 @@ async function getLaporanById(req, res) {
     try {
         const { id } = req.params;
         const laporan = await prisma.laporan.findUnique({
-            where: { id: parseInt(id) },
+            where: { id: parseInt(id, 10) },
             include: { statusLogs: { orderBy: { createdAt: 'desc' } } },
         });
         if (!laporan) {

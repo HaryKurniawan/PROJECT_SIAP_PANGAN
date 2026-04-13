@@ -37,6 +37,9 @@ export default function AdminLaporanPage() {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [newStatus, setNewStatus] = useState('');
   const [catatan, setCatatan] = useState('');
+  const [tindakLanjutKeterangan, setTindakLanjutKeterangan] = useState('');
+  const [tindakLanjutFoto, setTindakLanjutFoto] = useState<File | null>(null);
+  const [fotoPreview, setFotoPreview] = useState<string | null>(null);
 
   const { data, isLoading } = useAdminLaporan(filters);
   const updateStatus = useUpdateStatusLaporan();
@@ -54,6 +57,9 @@ export default function AdminLaporanPage() {
     setSelectedLaporan(lap);
     setNewStatus(lap.status);
     setCatatan('');
+    setTindakLanjutKeterangan(lap.tindakLanjutKeterangan || '');
+    setTindakLanjutFoto(null);
+    setFotoPreview(lap.tindakLanjutFoto || null);
     setIsStatusOpen(true);
   };
 
@@ -64,6 +70,8 @@ export default function AdminLaporanPage() {
         id: selectedLaporan.id,
         status: newStatus,
         catatan: catatan || undefined,
+        tindakLanjutKeterangan: tindakLanjutKeterangan || undefined,
+        tindakLanjutFoto: tindakLanjutFoto || undefined,
       });
       toast.success('Status berhasil diperbarui');
       setIsStatusOpen(false);
@@ -402,21 +410,40 @@ export default function AdminLaporanPage() {
             </div>
 
             {/* Foto Bukti */}
-            {selectedLaporan.fotoBukti && (
+            {(selectedLaporan.fotoBukti || selectedLaporan.fotoBukti2) && (
               <div className="space-y-2">
                 <p className="text-[13px] font-bold text-gray-900">Foto Bukti Lampiran</p>
-                <div className="bg-gray-50 p-3 rounded-[24px] border border-gray-100 inline-block overflow-hidden w-full">
-                  <Image
-                    src={selectedLaporan.fotoBukti.startsWith('http') 
-                      ? selectedLaporan.fotoBukti 
-                      : `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${selectedLaporan.fotoBukti}`
-                    }
-                    alt="Bukti Laporan"
-                    width={800}
-                    height={400}
-                    className="rounded-[18px] max-h-80 w-full object-cover shadow-sm hover:scale-[1.02] transition-transform duration-500 grayscale-[0.2] hover:grayscale-0"
-                    unoptimized
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {selectedLaporan.fotoBukti && (
+                    <div className="bg-gray-50 p-3 rounded-[24px] border border-gray-100 inline-block overflow-hidden w-full">
+                      <Image
+                        src={selectedLaporan.fotoBukti.startsWith('http') 
+                          ? selectedLaporan.fotoBukti 
+                          : `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${selectedLaporan.fotoBukti}`
+                        }
+                        alt="Bukti Laporan 1"
+                        width={400}
+                        height={300}
+                        className="rounded-[18px] max-h-60 w-full object-cover shadow-sm hover:scale-[1.02] transition-transform duration-500 grayscale-[0.2] hover:grayscale-0"
+                        unoptimized
+                      />
+                    </div>
+                  )}
+                  {selectedLaporan.fotoBukti2 && (
+                    <div className="bg-gray-50 p-3 rounded-[24px] border border-gray-100 inline-block overflow-hidden w-full">
+                      <Image
+                        src={selectedLaporan.fotoBukti2.startsWith('http') 
+                          ? selectedLaporan.fotoBukti2 
+                          : `${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:5000'}${selectedLaporan.fotoBukti2}`
+                        }
+                        alt="Bukti Laporan 2"
+                        width={400}
+                        height={300}
+                        className="rounded-[18px] max-h-60 w-full object-cover shadow-sm hover:scale-[1.02] transition-transform duration-500 grayscale-[0.2] hover:grayscale-0"
+                        unoptimized
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -485,6 +512,61 @@ export default function AdminLaporanPage() {
                 onChange={(e) => setCatatan(e.target.value)}
                 className="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all font-medium placeholder:text-gray-400"
               ></textarea>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[13px] font-bold text-gray-700 ml-1">Keterangan Tindak Lanjut (Publik)</label>
+              <textarea
+                rows={3}
+                placeholder="Tuliskan keterangan untuk dilihat oleh pelapor..."
+                value={tindakLanjutKeterangan}
+                onChange={(e) => setTindakLanjutKeterangan(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-50/50 border border-gray-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all font-medium placeholder:text-gray-400"
+              ></textarea>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[13px] font-bold text-gray-700 ml-1">Foto Bukti Tindak Lanjut</label>
+              <div className="mt-1 flex flex-col gap-3">
+                {fotoPreview && (
+                  <div className="relative w-full h-40 bg-gray-100 rounded-2xl overflow-hidden border border-gray-200">
+                    <Image
+                      src={fotoPreview}
+                      alt="Preview"
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setTindakLanjutFoto(null);
+                        setFotoPreview(null);
+                      }}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setTindakLanjutFoto(file);
+                      setFotoPreview(URL.createObjectURL(file));
+                    }
+                  }}
+                  className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-[#3a5dcf]
+                    hover:file:bg-blue-100 transition-all"
+                />
+              </div>
             </div>
           </div>
         )}

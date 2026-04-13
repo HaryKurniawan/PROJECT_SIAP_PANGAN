@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useArtikelDetail } from '@/lib/hooks';
 import { ShieldCheck, ArrowLeft, Calendar, Info, BookOpen, AlertTriangle } from 'lucide-react';
 
@@ -36,9 +37,21 @@ export default function EdukasiDetailPage() {
             >
               <ArrowLeft className="w-4 h-4" strokeWidth={2.5} />
             </button>
-            <div className="flex flex-col">
-              <span className="text-gray-900 text-[15px] font-bold tracking-tight leading-none mb-0.5">Detail Edukasi</span>
-              <span className="text-gray-400 text-[9px] font-bold tracking-widest uppercase">SIAP PANGAN</span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
+                <Image 
+                  src="/img/logo.jpeg" 
+                  alt="Logo SIAP PANGAN" 
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-cover"
+                  unoptimized
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-900 text-[13px] font-black tracking-tight leading-none mb-0.5">Detail Edukasi</span>
+                <span className="text-[#3a5dcf] text-[8px] font-bold tracking-widest uppercase">SIAP PANGAN</span>
+              </div>
             </div>
           </div>
         </div>

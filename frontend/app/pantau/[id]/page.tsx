@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { CheckCircle, ShieldCheck, TrendingUp, ArrowRight } from 'lucide-react';
 import api from '@/lib/api';
@@ -51,13 +52,20 @@ export default function PantauPage() {
       {/* Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 relative z-10">
         {/* Header Badge */}
-        <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 bg-[#2143B1]/10 rounded-lg flex items-center justify-center">
-            <ShieldCheck className="w-4 h-4 text-[#2143B1]" strokeWidth={2.5} />
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md border border-gray-100 overflow-hidden">
+            <Image 
+              src="/img/logo.jpeg" 
+              alt="Logo SIAP PANGAN" 
+              width={40}
+              height={40}
+              className="w-full h-full object-cover"
+              unoptimized
+            />
           </div>
           <div>
-            <p className="text-[13px] font-bold text-gray-900 tracking-tight leading-none">SIAP PANGAN</p>
-            <p className="text-[9px] font-bold text-gray-400 tracking-widest uppercase">Kabupaten Brebes</p>
+            <p className="text-[14px] font-black text-gray-900 tracking-tight leading-none mb-0.5">SIAP PANGAN</p>
+            <p className="text-[9px] font-bold text-[#3a5dcf] tracking-widest uppercase opacity-80">Kabupaten Brebes</p>
           </div>
         </div>
 

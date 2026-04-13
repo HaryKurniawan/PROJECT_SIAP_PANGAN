@@ -9,17 +9,17 @@ const path_1 = __importDefault(require("path"));
 const auth_1 = require("../middleware/auth");
 const laporan_1 = require("../controllers/laporan");
 const router = (0, express_1.Router)();
-const storage = multer_1.default.diskStorage({
-    destination: (_req, _file, cb) => cb(null, path_1.default.join(__dirname, '..', '..', 'uploads')),
-    filename: (_req, file, cb) => cb(null, `bukti-${Date.now()}-${Math.round(Math.random() * 1e9)}${path_1.default.extname(file.originalname)}`),
-});
+const storage = multer_1.default.memoryStorage();
 const upload = (0, multer_1.default)({
     storage,
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: (_req, file, cb) => {
         const ok = /jpeg|jpg|png|webp/.test(path_1.default.extname(file.originalname).toLowerCase()) &&
             /jpeg|jpg|png|webp/.test(file.mimetype);
-        cb(ok ? null : new Error('Hanya gambar (JPG, PNG, WebP)'), ok);
+        if (!ok) {
+            return cb(new Error('Hanya gambar (JPG, PNG, WebP)'));
+        }
+        cb(null, true);
     },
 });
 router.post('/', upload.single('fotoBukti'), laporan_1.createLaporan);

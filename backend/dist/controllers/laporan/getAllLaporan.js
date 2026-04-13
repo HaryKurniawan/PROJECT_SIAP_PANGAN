@@ -5,7 +5,7 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 async function getAllLaporan(req, res) {
     try {
-        const { status, kecamatan, search, page = '1', limit = '20' } = req.query;
+        const { status, kecamatan, search, startDate, endDate, page = '1', limit = '20' } = req.query;
         const where = {};
         if (status)
             where.status = status;
@@ -17,6 +17,16 @@ async function getAllLaporan(req, res) {
                 { nama: { contains: search, mode: 'insensitive' } },
                 { komoditas: { contains: search, mode: 'insensitive' } },
             ];
+        }
+        if (startDate || endDate) {
+            where.createdAt = {};
+            if (startDate)
+                where.createdAt.gte = new Date(startDate);
+            if (endDate) {
+                const end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+                where.createdAt.lte = end;
+            }
         }
         const skip = (parseInt(page) - 1) * parseInt(limit);
         const [laporans, total] = await Promise.all([

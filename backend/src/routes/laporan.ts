@@ -21,11 +21,11 @@ const upload = multer({
   },
 });
 
-router.post('/', upload.single('fotoBukti'), createLaporan);
+router.post('/', upload.fields([{ name: 'fotoBukti', maxCount: 1 }, { name: 'fotoBukti2', maxCount: 1 }]), createLaporan);
 router.get('/tiket/:tiket', getLaporanByTiket);
 router.get('/', authMiddleware, getAllLaporan);
 router.get('/:id', authMiddleware, getLaporanById);
-router.patch('/:id/status', authMiddleware, updateStatusLaporan);
+router.patch('/:id/status', authMiddleware, upload.single('tindakLanjutFoto'), updateStatusLaporan);
 router.delete('/:id', authMiddleware, deleteLaporan);
 
 export default router;

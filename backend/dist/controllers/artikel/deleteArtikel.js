@@ -6,7 +6,7 @@ const prisma = new client_1.PrismaClient();
 async function deleteArtikel(req, res) {
     try {
         const { id } = req.params;
-        await prisma.artikel.delete({ where: { id: parseInt(id) } });
+        await prisma.artikel.delete({ where: { id: parseInt(id, 10) } });
         res.json({ success: true, message: 'Artikel dihapus.' });
     }
     catch (error) {

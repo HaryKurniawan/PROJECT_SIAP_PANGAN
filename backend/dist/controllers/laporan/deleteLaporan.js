@@ -6,7 +6,7 @@ const prisma = new client_1.PrismaClient();
 async function deleteLaporan(req, res) {
     try {
         const { id } = req.params;
-        await prisma.laporan.delete({ where: { id: parseInt(id) } });
+        await prisma.laporan.delete({ where: { id: parseInt(id, 10) } });
         res.json({ success: true, message: 'Laporan berhasil dihapus.' });
     }
     catch (error) {

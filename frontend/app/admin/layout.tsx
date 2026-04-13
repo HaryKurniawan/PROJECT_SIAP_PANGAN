@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import api from '@/lib/api';
 import { ShieldCheck, LayoutDashboard, FileText, Tags, Newspaper, ExternalLink, LogOut, Menu, X, UserCircle, QrCode } from 'lucide-react';
 
@@ -73,15 +74,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             >
               {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#2143B1] to-[#3a5dcf] rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20 border border-white/20">
-                <ShieldCheck className="w-5 h-5 text-white" strokeWidth={2.5} />
+            <Link href="/admin/dashboard" className="flex items-center gap-3 active:scale-95 transition-transform group">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md shadow-blue-600/5 border border-gray-100 overflow-hidden group-hover:shadow-blue-600/10 transition-shadow">
+                <Image 
+                  src="/img/logo.jpeg" 
+                  alt="Logo SIAP PANGAN" 
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                  unoptimized
+                />
               </div>
               <div className="hidden sm:block">
                 <h1 className="text-[#1a1c21] text-[15px] font-black tracking-tight leading-tight">SIAP PANGAN</h1>
                 <p className="text-[#3a5dcf] text-[10px] font-bold tracking-widest uppercase opacity-80">Kabupaten Brebes</p>
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center gap-3">

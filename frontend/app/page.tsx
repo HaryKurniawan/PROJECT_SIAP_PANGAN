@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import BottomNav from '@/components/BottomNav';
 import { useHarga } from '@/lib/hooks';
 import { ShieldCheck, ChevronRight, AlertTriangle, Search, TrendingUp, Info, Wheat, Droplets, Package } from 'lucide-react';
@@ -17,15 +18,22 @@ export default function HomePage() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md h-[64px] px-6 flex items-center border-b border-gray-50/50">
         <div className="max-w-6xl w-full mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 flex items-center justify-center text-primary bg-primary/5 rounded-xl">
-              <ShieldCheck className="w-5 h-5" strokeWidth={2.5} />
+          <Link href="/" className="flex items-center gap-3 active:scale-95 transition-transform">
+            <div className="relative w-10 h-10 flex items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm border border-gray-100">
+              <Image 
+                src="/img/logo.jpeg" 
+                alt="Logo SIAP PANGAN" 
+                width={40}
+                height={40}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
             </div>
             <div className="flex flex-col">
-              <span className="text-gray-900 text-[15px] font-bold tracking-tight leading-none mb-0.5">SIAP PANGAN</span>
+              <span className="text-gray-900 text-[15px] font-black tracking-tight leading-none mb-0.5">SIAP PANGAN</span>
               <span className="text-gray-400 text-[9px] font-bold tracking-widest uppercase">Kabupaten Brebes</span>
             </div>
-          </div>
+          </Link>
         </div>
       </header>
 

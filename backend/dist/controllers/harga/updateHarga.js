@@ -8,7 +8,7 @@ async function updateHarga(req, res) {
         const { id } = req.params;
         const { nama, harga, satuan, status } = req.body;
         const updated = await prisma.hargaPangan.update({
-            where: { id: parseInt(id) },
+            where: { id: parseInt(id, 10) },
             data: {
                 nama: nama || undefined, harga: harga ? parseInt(harga) : undefined,
                 satuan: satuan || undefined, status: status || undefined,

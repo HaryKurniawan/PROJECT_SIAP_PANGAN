@@ -9,19 +9,32 @@ const helmet_1 = __importDefault(require("helmet"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const path_1 = __importDefault(require("path"));
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const apiKey_1 = require("./middleware/apiKey");
 const laporan_1 = __importDefault(require("./routes/laporan"));
 const harga_1 = __importDefault(require("./routes/harga"));
 const artikel_1 = __importDefault(require("./routes/artikel"));
 const admin_1 = __importDefault(require("./routes/admin"));
 const app = (0, express_1.default)();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
+// Rate limiter global
+const limiter = (0, express_rate_limit_1.default)({
+    windowMs: 15 * 60 * 1000, // 15 menit
+    max: 1000, // Limit setiap IP 1000 request per 15 menit agar tidak menyulitkan
+    message: {
+        success: false,
+        message: 'Terlalu banyak permintaan, silakan coba lagi setelah beberapa saat.',
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 // Middleware
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)({
     origin: ['http://localhost:3000', 'http://localhost:3001'],
     credentials: true,
 }));
+app.use(limiter);
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)(process.env.COOKIE_SECRET));
@@ -36,12 +49,18 @@ app.use('/api/artikel', artikel_1.default);
 app.use('/api/admin', admin_1.default);
 // Health check
 app.get('/health', (_req, res) => {
-    res.json({ status: 'ok', message: 'SIAP PANGAN BREBES API is running' });
+    res.json({
+        status: 'ok',
+        message: 'SIAP PANGAN BREBES API is running',
+    });
 });
 // Error handler
-app.use((err, _req, res, _next) => {
+app.use((err, _req, res) => {
     console.error(err.stack);
-    res.status(500).json({ success: false, message: 'Terjadi kesalahan pada server' });
+    res.status(500).json({
+        success: false,
+        message: 'Terjadi kesalahan pada server',
+    });
 });
 app.listen(PORT, () => {
     console.log(`🚀 SIAP PANGAN BREBES API running on port ${PORT}`);

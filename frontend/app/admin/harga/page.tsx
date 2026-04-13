@@ -32,6 +32,7 @@ export default function AdminHargaPage() {
   const [formNama, setFormNama] = useState('');
   const [formHarga, setFormHarga] = useState<number>(0);
   const [formSatuan, setFormSatuan] = useState('');
+  const [formKategori, setFormKategori] = useState('Kebutuhan Pokok');
   const [formStatus, setFormStatus] = useState('normal');
 
   const { data, isLoading } = useHarga(search);
@@ -46,6 +47,7 @@ export default function AdminHargaPage() {
     setFormNama('');
     setFormHarga(0);
     setFormSatuan('/kg');
+    setFormKategori('Kebutuhan Pokok');
     setFormStatus('normal');
     setIsModalOpen(true);
   };
@@ -55,6 +57,7 @@ export default function AdminHargaPage() {
     setFormNama(item.nama);
     setFormHarga(item.harga);
     setFormSatuan(item.satuan);
+    setFormKategori(item.kategori || 'Kebutuhan Pokok');
     setFormStatus(item.status);
     setIsModalOpen(true);
   };
@@ -72,6 +75,7 @@ export default function AdminHargaPage() {
           nama: formNama,
           harga: formHarga,
           satuan: formSatuan,
+          kategori: formKategori,
           status: formStatus as 'normal' | 'tinggi',
         });
         toast.success('Harga berhasil diperbarui');
@@ -80,6 +84,7 @@ export default function AdminHargaPage() {
           nama: formNama,
           harga: formHarga,
           satuan: formSatuan,
+          kategori: formKategori,
           status: formStatus as 'normal' | 'tinggi',
         });
         toast.success('Harga berhasil ditambahkan');
@@ -186,6 +191,7 @@ export default function AdminHargaPage() {
               <thead>
                 <tr className="bg-gray-50/50 uppercase tracking-wider text-[11px] font-bold text-gray-400">
                   <th className="px-6 py-5 border-b border-gray-50">Komoditas</th>
+                  <th className="px-6 py-5 border-b border-gray-50">Kategori</th>
                   <th className="px-6 py-5 border-b border-gray-50">Harga Acuan</th>
                   <th className="px-6 py-5 border-b border-gray-50 text-center">Status</th>
                   <th className="px-6 py-5 border-b border-gray-50">Update Terakhir</th>
@@ -205,6 +211,11 @@ export default function AdminHargaPage() {
                           <p className="text-[12px] text-gray-400 font-medium">Kabupaten Brebes</p>
                         </div>
                       </div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-600 border border-blue-100">
+                        {item.kategori || 'Kebutuhan Pokok'}
+                      </span>
                     </td>
                     <td className="px-6 py-5">
                       <div className="flex flex-col">
@@ -317,6 +328,22 @@ export default function AdminHargaPage() {
                 ]}
               />
             </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-[13px] font-bold text-gray-700 ml-1">Kategori Produk</label>
+            <Select
+              size="large"
+              style={{ width: '100%' }}
+              value={formKategori}
+              onChange={setFormKategori}
+              className="modern-select h-12"
+              options={[
+                { value: 'Kebutuhan Pokok', label: 'Kebutuhan Pokok' },
+                { value: 'Barang Penting', label: 'Barang Penting' },
+                { value: 'Lain - lain', label: 'Lain - lain' },
+              ]}
+            />
           </div>
 
           <div className="space-y-1.5">

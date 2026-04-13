@@ -28,12 +28,15 @@ model Laporan {
   alamat         String
   kecamatan      String
   kronologi      String
-  fotoBukti      String?     @map("foto_bukti")
-  status         String      @default("diterima")
-  catatanPetugas String?     @map("catatan_petugas")
-  createdAt      DateTime    @default(now()) @map("created_at")
-  updatedAt      DateTime    @updatedAt @map("updated_at")
-  statusLogs     StatusLog[]
+  fotoBukti             String?     @map("foto_bukti")
+  fotoBukti2            String?     @map("foto_bukti_2")
+  status                String      @default("diterima")
+  catatanPetugas        String?     @map("catatan_petugas")
+  tindakLanjutKeterangan String?     @map("tindak_lanjut_keterangan")
+  tindakLanjutFoto       String?     @map("tindak_lanjut_foto")
+  createdAt             DateTime    @default(now()) @map("created_at")
+  updatedAt             DateTime    @updatedAt @map("updated_at")
+  statusLogs            StatusLog[]
 
   @@map("laporans")
 }
@@ -52,6 +55,7 @@ model StatusLog {
 model HargaPangan {
   id        Int      @id @default(autoincrement())
   nama      String
+  kategori  String   @default("Kebutuhan Pokok")
   harga     Int
   satuan    String
   status    String   @default("normal")

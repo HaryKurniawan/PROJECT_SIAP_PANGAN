@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = updateStatusLaporan;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const VALID_STATUSES = ['diterima', 'diverifikasi', 'diproses', 'selesai'];
+const VALID_STATUSES = ['diterima', 'diverifikasi', 'diproses', 'selesai', 'ditolak'];
 async function updateStatusLaporan(req, res) {
     try {
         const { id } = req.params;
@@ -13,7 +13,7 @@ async function updateStatusLaporan(req, res) {
             return;
         }
         const laporan = await prisma.laporan.update({
-            where: { id: parseInt(id) },
+            where: { id: parseInt(id, 10) },
             data: {
                 status,
                 catatanPetugas: catatan || undefined,

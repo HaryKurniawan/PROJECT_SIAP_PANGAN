@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import toast from 'react-hot-toast';
 import BottomNav from '@/components/BottomNav';
 import { useCreateLaporan } from '@/lib/hooks';
@@ -9,9 +10,10 @@ import { laporanSchema, KECAMATAN_BREBES } from '@/lib/schemas';
 import { saveTicket } from '@/lib/ticket-storage';
 
 export default function LaporPage() {
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [fotoBukti, setFotoBukti] = useState<File | null>(null);
+  const [fotoBukti2, setFotoBukti2] = useState<File | null>(null);
   const [successTicket, setSuccessTicket] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const formRef = useRef<HTMLFormElement>(null);
   const createLaporan = useCreateLaporan();
 
@@ -45,6 +47,7 @@ export default function LaporPage() {
       const response = await createLaporan.mutateAsync({
         ...result.data,
         fotoBukti: fotoBukti || undefined,
+        fotoBukti2: fotoBukti2 || undefined,
       });
 
       // Simpan tiket ke localStorage
@@ -59,6 +62,7 @@ export default function LaporPage() {
       setSuccessTicket(response.data.tiket);
       formRef.current?.reset();
       setFotoBukti(null);
+      setFotoBukti2(null);
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Gagal mengirim laporan');
     }
@@ -68,17 +72,26 @@ export default function LaporPage() {
   if (successTicket) {
     return (
       <>
-        <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-primary-dark to-primary shadow-lg h-16 px-4 flex items-center">
-          <div className="max-w-6xl w-full mx-auto flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/15 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg">
-              <i className="fas fa-shield-halved"></i>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md h-16 px-4 flex items-center border-b border-gray-100/50">
+        <div className="max-w-6xl w-full mx-auto flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
+              <Image 
+                src="/img/logo.jpeg" 
+                alt="Logo SIAP PANGAN" 
+                width={40}
+                height={40}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
             </div>
             <div>
-              <h1 className="text-white text-base font-bold tracking-tight leading-tight">SIAP PANGAN</h1>
-              <p className="text-blue-200 text-xs font-medium">Polres Brebes</p>
+              <h1 className="text-gray-900 text-[15px] font-black tracking-tight leading-tight">SIAP PANGAN</h1>
+              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Polres Brebes</p>
             </div>
-          </div>
-        </header>
+          </Link>
+        </div>
+      </header>
 
         <main className="pt-16 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-10 min-h-[100dvh] flex items-center justify-center bg-gray-50">
           <div className="text-center px-5 py-10 max-w-[400px] w-full">
@@ -124,15 +137,24 @@ export default function LaporPage() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-primary-dark to-primary shadow-lg h-16 px-4 flex items-center">
-        <div className="max-w-6xl w-full mx-auto flex items-center gap-3">
-          <div className="w-10 h-10 bg-white/15 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg">
-            <i className="fas fa-shield-halved"></i>
-          </div>
-          <div>
-            <h1 className="text-white text-base font-bold tracking-tight leading-tight">SIAP PANGAN</h1>
-            <p className="text-blue-200 text-xs font-medium">Polres Brebes</p>
-          </div>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md h-16 px-4 flex items-center border-b border-gray-100/50">
+        <div className="max-w-6xl w-full mx-auto flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
+              <Image 
+                src="/img/logo.jpeg" 
+                alt="Logo SIAP PANGAN" 
+                width={40}
+                height={40}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
+            </div>
+            <div>
+              <h1 className="text-gray-900 text-[15px] font-black tracking-tight leading-tight">SIAP PANGAN</h1>
+              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Polres Brebes</p>
+            </div>
+          </Link>
         </div>
       </header>
 
@@ -243,15 +265,28 @@ export default function LaporPage() {
                   {errors.kronologi && <p className="text-[12px] text-red-500 mt-1.5 flex items-center gap-1"><i className="fas fa-exclamation-circle"></i> {errors.kronologi}</p>}
                 </div>
 
-                {/* Field */}
                 <div>
                   <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
-                    Foto Bukti <span className="text-gray-400 text-[11px] font-normal">(opsional)</span>
+                    Foto Bukti 1 <span className="text-gray-400 text-[11px] font-normal">(opsional)</span>
                   </label>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => setFotoBukti(e.target.files?.[0] || null)}
+                    className="w-full p-2.5 border-2 border-dashed border-gray-300 rounded-xl text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 cursor-pointer"
+                  />
+                  <p className="text-xs text-gray-400 mt-2 font-medium">Format: JPG, PNG, WebP. Maksimal 5MB</p>
+                </div>
+
+                {/* Field */}
+                <div>
+                  <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+                    Foto Bukti 2 <span className="text-gray-400 text-[11px] font-normal">(opsional)</span>
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFotoBukti2(e.target.files?.[0] || null)}
                     className="w-full p-2.5 border-2 border-dashed border-gray-300 rounded-xl text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100 cursor-pointer"
                   />
                   <p className="text-xs text-gray-400 mt-2 font-medium">Format: JPG, PNG, WebP. Maksimal 5MB</p>

@@ -6,7 +6,7 @@ const prisma = new client_1.PrismaClient();
 async function deleteHarga(req, res) {
     try {
         const { id } = req.params;
-        await prisma.hargaPangan.delete({ where: { id: parseInt(id) } });
+        await prisma.hargaPangan.delete({ where: { id: parseInt(id, 10) } });
         res.json({ success: true, message: 'Harga dihapus.' });
     }
     catch (error) {

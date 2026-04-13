@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useAdminLogin } from '@/lib/hooks';
 import { loginSchema } from '@/lib/schemas';
@@ -60,11 +61,18 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-white/15 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/20 shadow-lg shadow-blue-900/20">
-            <ShieldCheck className="w-8 h-8 text-white" strokeWidth={2} />
+          <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center mx-auto mb-5 border border-white/30 shadow-2xl shadow-blue-900/30 overflow-hidden">
+            <Image 
+              src="/img/logo.jpeg" 
+              alt="Logo SIAP PANGAN" 
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+              unoptimized
+            />
           </div>
-          <h1 className="text-white text-2xl font-bold tracking-tight">Admin Panel</h1>
-          <p className="text-white/60 text-sm mt-1 font-medium">SIAP PANGAN — Kabupaten Brebes</p>
+          <h1 className="text-white text-2xl font-black tracking-tight">Admin Portal</h1>
+          <p className="text-white/70 text-sm mt-1.5 font-bold uppercase tracking-widest">SIAP PANGAN — Brebes</p>
         </div>
 
         {/* Login Card */}

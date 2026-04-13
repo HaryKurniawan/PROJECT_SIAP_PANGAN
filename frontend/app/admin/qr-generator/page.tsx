@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { useHarga } from '@/lib/hooks';
 import { QrCode, Printer, Download, Search, Package } from 'lucide-react';
 import QRCode from 'qrcode';
@@ -184,10 +185,13 @@ export default function AdminQRGeneratorPage() {
               {/* QR Code Display */}
               <div className="p-6 flex flex-col items-center bg-gradient-to-b from-blue-50/30 to-white">
                 {qrUrls[item.id] ? (
-                  <img
+                  <Image
                     src={qrUrls[item.id]}
                     alt={`QR Code ${item.nama}`}
+                    width={160}
+                    height={160}
                     className="w-40 h-40 rounded-xl shadow-sm border border-gray-100"
+                    unoptimized
                   />
                 ) : (
                   <div className="w-40 h-40 bg-gray-100 rounded-xl flex items-center justify-center">

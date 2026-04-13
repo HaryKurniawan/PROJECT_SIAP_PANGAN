@@ -30,6 +30,7 @@ export const hargaSchema = z.object({
   nama: z.string().min(1, 'Nama komoditas wajib diisi'),
   harga: z.number().min(1, 'Harga minimal Rp 1'),
   satuan: z.string().min(1, 'Satuan wajib diisi'),
+  kategori: z.string().default('Kebutuhan Pokok'),
   status: z.enum(['normal', 'tinggi']).default('normal'),
 });
 
