@@ -1,14 +1,16 @@
 import { Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import type { AuthRequest } from '../../types';
 
 const prisma = new PrismaClient();
 
 export default async function getAllHarga(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const { search } = req.query as { search?: string };
-    const where: any = {};
+    const { search, kategori, status } = req.query as { search?: string; kategori?: string; status?: string };
+    const where: Prisma.HargaPanganWhereInput = {};
     if (search) where.nama = { contains: search, mode: 'insensitive' };
+    if (kategori) where.kategori = kategori;
+    if (status) where.status = status;
 
     const hargaList = await prisma.hargaPangan.findMany({ where, orderBy: { nama: 'asc' } });
     res.json({ success: true, data: hargaList });

@@ -71,8 +71,8 @@ export default function AdminLoginPage() {
               unoptimized
             />
           </div>
-          <h1 className="text-white text-2xl font-black tracking-tight">Admin Portal</h1>
-          <p className="text-white/70 text-sm mt-1.5 font-bold uppercase tracking-widest">SIAP PANGAN — Brebes</p>
+          <h1 className="text-white text-2xl font-black tracking-tight uppercase">SIAP PANGAN</h1>
+          <p className="text-white/70 text-sm mt-1.5 font-bold uppercase tracking-widest leading-none">Brebes</p>
         </div>
 
         {/* Login Card */}

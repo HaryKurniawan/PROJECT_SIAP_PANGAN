@@ -28,6 +28,10 @@ export default function AdminHargaPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editData, setEditData] = useState<any>(null);
 
+  // Filter state
+  const [selectedKategori, setSelectedKategori] = useState<string | undefined>(undefined);
+  const [selectedStatus, setSelectedStatus] = useState<string | undefined>(undefined);
+
   // Form state
   const [formNama, setFormNama] = useState('');
   const [formHarga, setFormHarga] = useState<number>(0);
@@ -35,7 +39,11 @@ export default function AdminHargaPage() {
   const [formKategori, setFormKategori] = useState('Kebutuhan Pokok');
   const [formStatus, setFormStatus] = useState('normal');
 
-  const { data, isLoading } = useHarga(search);
+  const { data, isLoading } = useHarga({ 
+    search, 
+    kategori: selectedKategori, 
+    status: selectedStatus 
+  });
   const createHarga = useCreateHarga();
   const updateHarga = useUpdateHarga();
   const deleteHarga = useDeleteHarga();
@@ -151,15 +159,46 @@ export default function AdminHargaPage() {
       {/* Search Layout */}
       <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-4 sm:p-5">
-          <div className="relative max-w-md">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" strokeWidth={2.5} />
-            <input
-              type="search"
-              placeholder="Cari nama komoditas (contoh: Beras)..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl text-[14px] font-medium focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all text-gray-900 placeholder:text-gray-400"
-            />
+          <div className="flex flex-col lg:flex-row gap-4 lg:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-4 h-4" strokeWidth={2.5} />
+              <input
+                type="search"
+                placeholder="Cari nama komoditas (contoh: Beras)..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-11 pr-4 py-3 bg-gray-50/50 border border-gray-100 rounded-xl text-[14px] font-medium focus:outline-none focus:ring-2 focus:ring-[#3a5dcf]/10 focus:border-[#3a5dcf]/30 transition-all text-gray-900 placeholder:text-gray-400 h-[48px]"
+              />
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="w-full sm:w-[200px]">
+                <Select
+                  placeholder="Kategori: Semua"
+                  allowClear
+                  className="modern-select w-full h-[48px]"
+                  value={selectedKategori}
+                  onChange={setSelectedKategori}
+                  options={[
+                    { value: 'Kebutuhan Pokok', label: 'Kebutuhan Pokok' },
+                    { value: 'Barang Penting', label: 'Barang Penting' },
+                    { value: 'Lain - lain', label: 'Lain - lain' },
+                  ]}
+                />
+              </div>
+              <div className="w-full sm:w-[160px]">
+                <Select
+                  placeholder="Status: Semua"
+                  allowClear
+                  className="modern-select w-full h-[48px]"
+                  value={selectedStatus}
+                  onChange={setSelectedStatus}
+                  options={[
+                    { value: 'normal', label: '✓ Stabil' },
+                    { value: 'tinggi', label: '⚠ Awasi' },
+                  ]}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

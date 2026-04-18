@@ -19,6 +19,8 @@ async function getLaporanByTiket(req, res) {
             data: {
                 tiket: laporan.tiket, komoditas: laporan.komoditas, kecamatan: laporan.kecamatan,
                 status: laporan.status, createdAt: laporan.createdAt, updatedAt: laporan.updatedAt,
+                tindakLanjutKeterangan: laporan.tindakLanjutKeterangan,
+                tindakLanjutFoto: laporan.tindakLanjutFoto,
                 statusLogs: (laporan.statusLogs || []).map((log) => ({
                     status: log.status, catatan: log.catatan, createdAt: log.createdAt,
                 })),

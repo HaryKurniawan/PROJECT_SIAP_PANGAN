@@ -38,19 +38,19 @@ export default function EdukasiDetailPage() {
               <ArrowLeft className="w-4 h-4" strokeWidth={2.5} />
             </button>
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
+              <div className="h-8 w-auto flex items-center justify-center">
                 <Image 
                   src="/img/logo.jpeg" 
                   alt="Logo SIAP PANGAN" 
                   width={32}
                   height={32}
-                  className="w-full h-full object-cover"
+                  className="h-8 w-auto object-contain"
                   unoptimized
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-gray-900 text-[13px] font-black tracking-tight leading-none mb-0.5">Detail Edukasi</span>
-                <span className="text-[#3a5dcf] text-[8px] font-bold tracking-widest uppercase">SIAP PANGAN</span>
+                <span className="text-gray-900 text-[13px] font-semibold tracking-tight leading-none mb-0.5">Detail Edukasi</span>
+                <span className="text-[#3a5dcf] text-[9px] font-medium tracking-wide">Siap Pangan</span>
               </div>
             </div>
           </div>

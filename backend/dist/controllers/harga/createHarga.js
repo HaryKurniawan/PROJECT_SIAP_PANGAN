@@ -5,13 +5,13 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 async function createHarga(req, res) {
     try {
-        const { nama, harga, satuan, status } = req.body;
+        const { nama, harga, satuan, status, kategori } = req.body;
         if (!nama || !harga || !satuan) {
             res.status(400).json({ success: false, message: 'Field nama, harga, dan satuan wajib.' });
             return;
         }
         const newHarga = await prisma.hargaPangan.create({
-            data: { nama, harga: parseInt(harga), satuan, status: status || 'normal' },
+            data: { nama, harga: parseInt(harga), satuan, status: status || 'normal', kategori: kategori || 'Kebutuhan Pokok' },
         });
         res.status(201).json({ success: true, message: 'Harga ditambahkan.', data: newHarga });
     }

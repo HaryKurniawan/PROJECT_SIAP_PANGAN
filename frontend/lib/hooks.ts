@@ -43,11 +43,11 @@ export function useCekLaporan(tiket: string) {
 }
 
 /** List harga pangan (publik) */
-export function useHarga(search?: string) {
+export function useHarga(params?: { search?: string; kategori?: string; status?: string }) {
   return useQuery({
-    queryKey: ['harga', search],
+    queryKey: ['harga', params],
     queryFn: async () => {
-      const res = await api.get('/harga', { params: { search } });
+      const res = await api.get('/harga', { params });
       return res.data;
     },
   });

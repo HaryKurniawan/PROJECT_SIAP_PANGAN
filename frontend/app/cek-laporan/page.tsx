@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 import { useCekLaporan } from '@/lib/hooks';
 import { getTicketHistory, searchTicketHistory, updateTicketStatus } from '@/lib/ticket-storage';
@@ -64,27 +65,7 @@ export default function CekLaporanPage() {
 
   return (
     <>
-      {/* Header matching home */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md h-[64px] px-6 flex items-center border-b border-gray-50/50">
-        <div className="max-w-6xl w-full mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 active:scale-95 transition-transform">
-            <div className="relative w-10 h-10 flex items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm border border-gray-100">
-              <Image 
-                src="/img/logo.jpeg" 
-                alt="Logo SIAP PANGAN" 
-                width={40}
-                height={40}
-                className="w-full h-full object-cover"
-                unoptimized
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-gray-900 text-[15px] font-black tracking-tight leading-none mb-0.5">SIAP PANGAN</span>
-              <span className="text-gray-400 text-[9px] font-bold tracking-widest uppercase">Kabupaten Brebes</span>
-            </div>
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       <main className="pt-[64px] pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-10 min-h-[100dvh] bg-[#fdfdfd]">
         {/* Title Section */}

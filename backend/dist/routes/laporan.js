@@ -22,11 +22,11 @@ const upload = (0, multer_1.default)({
         cb(null, true);
     },
 });
-router.post('/', upload.single('fotoBukti'), laporan_1.createLaporan);
+router.post('/', upload.fields([{ name: 'fotoBukti', maxCount: 1 }, { name: 'fotoBukti2', maxCount: 1 }]), laporan_1.createLaporan);
 router.get('/tiket/:tiket', laporan_1.getLaporanByTiket);
 router.get('/', auth_1.authMiddleware, laporan_1.getAllLaporan);
 router.get('/:id', auth_1.authMiddleware, laporan_1.getLaporanById);
-router.patch('/:id/status', auth_1.authMiddleware, laporan_1.updateStatusLaporan);
+router.patch('/:id/status', auth_1.authMiddleware, upload.single('tindakLanjutFoto'), laporan_1.updateStatusLaporan);
 router.delete('/:id', auth_1.authMiddleware, laporan_1.deleteLaporan);
 exports.default = router;
 //# sourceMappingURL=laporan.js.map

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useHarga } from '@/lib/hooks';
 import { QrCode, Printer, Download, Search, Package } from 'lucide-react';
@@ -8,8 +8,8 @@ import QRCode from 'qrcode';
 
 export default function AdminQRGeneratorPage() {
   const [search, setSearch] = useState('');
-  const { data, isLoading } = useHarga(search);
-  const hargaList = data?.data || [];
+  const { data, isLoading } = useHarga({ search });
+  const hargaList = useMemo(() => data?.data || [], [data]);
   const [qrUrls, setQrUrls] = useState<Record<number, string>>({});
 
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
@@ -68,7 +68,7 @@ export default function AdminQRGeneratorPage() {
         <body>
           <div class="card">
             <div class="logo-text">SIAP PANGAN</div>
-            <div class="subtitle">Kabupaten Brebes</div>
+            <div class="subtitle">Brebes</div>
             <img src="${qrUrl}" class="qr-img" alt="QR Code"/>
             <div class="product-name">${itemName}</div>
             <div class="instruction">Scan QR code ini untuk memverifikasi bahwa produk ini berada dalam pengawasan harga.</div>

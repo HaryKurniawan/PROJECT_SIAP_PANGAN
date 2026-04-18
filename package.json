@@ -11,10 +11,10 @@
     "dev:backend": "npm run dev --prefix backend"
   },
   "lint-staged": {
-    "frontend/**/*.{js,jsx,ts,tsx}": [
+    "frontend/{app,components,lib,scripts}/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ],
-    "backend/**/*.{js,jsx,ts,tsx}": [
+    "backend/src/**/*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ]
   },

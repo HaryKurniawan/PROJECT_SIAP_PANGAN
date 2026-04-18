@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 import { useCreateLaporan } from '@/lib/hooks';
 import { laporanSchema, KECAMATAN_BREBES } from '@/lib/schemas';
@@ -72,26 +73,7 @@ export default function LaporPage() {
   if (successTicket) {
     return (
       <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md h-16 px-4 flex items-center border-b border-gray-100/50">
-        <div className="max-w-6xl w-full mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
-              <Image 
-                src="/img/logo.jpeg" 
-                alt="Logo SIAP PANGAN" 
-                width={40}
-                height={40}
-                className="w-full h-full object-cover"
-                unoptimized
-              />
-            </div>
-            <div>
-              <h1 className="text-gray-900 text-[15px] font-black tracking-tight leading-tight">SIAP PANGAN</h1>
-              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Polres Brebes</p>
-            </div>
-          </Link>
-        </div>
-      </header>
+      <Header />
 
         <main className="pt-16 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-10 min-h-[100dvh] flex items-center justify-center bg-gray-50">
           <div className="text-center px-5 py-10 max-w-[400px] w-full">
@@ -137,26 +119,7 @@ export default function LaporPage() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md h-16 px-4 flex items-center border-b border-gray-100/50">
-        <div className="max-w-6xl w-full mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 overflow-hidden">
-              <Image 
-                src="/img/logo.jpeg" 
-                alt="Logo SIAP PANGAN" 
-                width={40}
-                height={40}
-                className="w-full h-full object-cover"
-                unoptimized
-              />
-            </div>
-            <div>
-              <h1 className="text-gray-900 text-[15px] font-black tracking-tight leading-tight">SIAP PANGAN</h1>
-              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Polres Brebes</p>
-            </div>
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       <main className="pt-16 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:pb-10 min-h-[100dvh] bg-gray-50">
         <div className="bg-gradient-to-br from-primary-dark to-primary px-5 pt-6 pb-12 text-white relative">
