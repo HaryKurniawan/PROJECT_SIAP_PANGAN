@@ -6,9 +6,10 @@
     "prepare": "husky",
     "commit": "node scripts/commit.js",
     "lint": "npx lint-staged",
-    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\" \"npm run dev:mobile\"",
     "dev:frontend": "npm run dev --prefix frontend",
-    "dev:backend": "npm run dev --prefix backend"
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:mobile": "npm run start --prefix mobile -- -c"
   },
   "lint-staged": {
     "frontend/{app,components,lib,scripts}/**/*.{js,jsx,ts,tsx}": [
