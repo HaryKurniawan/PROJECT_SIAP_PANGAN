@@ -14,7 +14,7 @@ import artikelRoutes from './routes/artikel';
 import adminRoutes from './routes/admin';
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 // Rate limiter global
 const limiter = rateLimit({
@@ -29,19 +29,27 @@ const limiter = rateLimit({
 });
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps)
+      if (!origin) return callback(null, true);
+
       const allowedOrigins = [
         'http://localhost:3000', 
         'http://localhost:3001', 
         'http://localhost:8081',
         'http://localhost:8082'
       ];
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+
+      // Allow local network IPs (e.g., http://192.168.1.8:8081)
+      const isLocalNetwork = origin.startsWith('http://192.168.') || origin.startsWith('exp://');
+
+      if (allowedOrigins.indexOf(origin) !== -1 || isLocalNetwork) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
@@ -79,9 +87,12 @@ app.get('/health', (_req, res) => {
 // Error handler
 app.use(
   (
-    err: Error,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    err: any,
     _req: express.Request,
-    res: express.Response
+    res: express.Response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _next: express.NextFunction
   ) => {
     console.error(err.stack);
     res.status(500).json({

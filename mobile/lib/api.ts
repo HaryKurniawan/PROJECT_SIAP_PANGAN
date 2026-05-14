@@ -12,7 +12,10 @@ const api = axios.create({
     'x-api-key': API_KEY,
   },
   withCredentials: true,
+  timeout: 10000, // Berhenti jika 10 detik tidak ada respon
 });
+
+console.log('📱 Connecting to API at:', API_URL);
 
 api.interceptors.response.use(
   (response) => response,

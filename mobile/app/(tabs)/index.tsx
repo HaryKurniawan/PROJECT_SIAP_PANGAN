@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, ActivityIndicator, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ShieldCheck, ChevronRight, Wheat, Droplets, Package } from 'lucide-react-native';
+import { ChevronRight, Wheat, Droplets, Package } from 'lucide-react-native';
 import { useHarga } from '../../hooks/api';
 import { Button } from '../../components/ui/Button';
 
@@ -23,7 +23,7 @@ export default function HomeScreen() {
       <View className="pb-10">
         
         {/* Hero Banner */}
-        <View className="px-4 pt-5">
+        <View className="px-4 pt-8">
           <LinearGradient
             colors={['#3b82f6', '#60a5fa', '#93c5fd']}
             start={{ x: 0, y: 0 }}
@@ -37,7 +37,7 @@ export default function HomeScreen() {
               <Text className="text-[22px] font-bold text-white tracking-tight mb-1">
                 Stabilitas Pangan
               </Text>
-              <Text className="text-[12px] text-white/80 leading-relaxed mb-6 font-medium max-w-[200px]">
+              <Text className="text-[12px] text-white/80 leading-relaxed mb-6 font-medium max-w-[300px]">
                 Monitoring harga pasar dan layanan pengaduan pangan terpadu di Brebes.
               </Text>
               
@@ -47,12 +47,6 @@ export default function HomeScreen() {
                 </Pressable>
               </Link>
             </View>
-            
-            <ShieldCheck 
-              size={100} 
-              color="rgba(255,255,255,0.06)" 
-              className="absolute -right-6 -bottom-6" 
-            />
           </LinearGradient>
         </View>
 

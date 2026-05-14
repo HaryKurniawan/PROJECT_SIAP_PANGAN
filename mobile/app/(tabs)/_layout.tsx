@@ -5,15 +5,15 @@ import { Home, FileSearch, LineChart, BookOpen, AlertTriangle } from 'lucide-rea
 
 function LogoHeader() {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingLeft: 4 }}>
       <Image 
         source={require('../../assets/images/logo.jpeg')} 
-        style={{ width: 56, height: 56, borderRadius: 14 }}
+        style={{ width: 72, height: 72, borderRadius: 20 }}
         resizeMode="contain"
       />
-      <View style={{ justifyContent: 'center' }}>
-        <Text style={{ fontSize: 16, fontWeight: '700', color: '#0f172a', letterSpacing: -0.4 }}>SIAP PANGAN</Text>
-        <Text style={{ fontSize: 12, fontWeight: '400', color: '#64748b', marginTop: -1 }}>Polres Brebes</Text>
+      <View style={{ justifyContent: 'center', gap: -2 }}>
+        <Text style={{ fontSize: 17, fontWeight: '800', color: '#0f172a', letterSpacing: -0.5 }}>SIAP PANGAN</Text>
+        <Text style={{ fontSize: 12, fontWeight: '500', color: '#64748b' }}>Polres Brebes</Text>
       </View>
     </View>
   );
@@ -32,7 +32,7 @@ export default function TabLayout() {
         },
         headerStyle: {
           backgroundColor: '#ffffff',
-          height: 85,
+          height: 105, 
           elevation: 0,
           shadowOpacity: 0,
           borderBottomWidth: 1,
@@ -78,12 +78,9 @@ export default function TabLayout() {
           tabBarButton: (props: any) => (
             <View style={{ flex: 1, alignItems: 'center' }}>
               <Pressable
-                onPress={() => {
-                  // Gunakan navigate agar navigasi selalu fresh ke halaman tujuan
-                  router.navigate('/lapor');
-                }}
+                onPress={props.onPress}
                 style={{
-                  top: -25,
+                  top: -35,
                   width: 60,
                   height: 60,
                   borderRadius: 30,
@@ -101,7 +98,7 @@ export default function TabLayout() {
               <Text style={{ 
                 fontSize: 11, 
                 fontWeight: '600', 
-                color: '#94a3b8',
+                color: props.accessibilityState?.selected ? '#3b82f6' : '#94a3b8',
                 position: 'absolute',
                 bottom: 12
               }}>Lapor</Text>

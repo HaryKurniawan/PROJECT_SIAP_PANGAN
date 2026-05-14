@@ -28,10 +28,7 @@ export default function EdukasiScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <View className="px-5 pt-4 pb-2">
-        <Text className="text-[18px] font-bold text-gray-900 tracking-tight">Edukasi Pangan</Text>
-        <Text className="text-[12px] text-gray-400 font-medium">Pelajari tentang keamanan dan stabilitas pangan</Text>
-      </View>
+
 
       <ScrollView className="flex-1 px-5 mt-4" showsVerticalScrollIndicator={false}>
         {isLoading ? (

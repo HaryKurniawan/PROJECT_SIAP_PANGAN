@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import BottomNav from '@/components/BottomNav';
 import { useHarga } from '@/lib/hooks';
-import { ShieldCheck, ChevronRight, AlertTriangle, Search, TrendingUp, Info, Wheat, Droplets, Package } from 'lucide-react';
+import { ShieldCheck, ChevronRight, Wheat, Droplets, Package } from 'lucide-react';
 
 export default function HomePage() {
   const { data, isLoading } = useHarga();
