@@ -16,7 +16,7 @@ const harga_1 = __importDefault(require("./routes/harga"));
 const artikel_1 = __importDefault(require("./routes/artikel"));
 const admin_1 = __importDefault(require("./routes/admin"));
 const app = (0, express_1.default)();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 // Rate limiter global
 const limiter = (0, express_rate_limit_1.default)({
     windowMs: 15 * 60 * 1000, // 15 menit
@@ -29,17 +29,23 @@ const limiter = (0, express_rate_limit_1.default)({
     legacyHeaders: false,
 });
 // Middleware
-app.use((0, helmet_1.default)());
+app.use((0, helmet_1.default)({
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps)
+        if (!origin)
+            return callback(null, true);
         const allowedOrigins = [
             'http://localhost:3000',
             'http://localhost:3001',
             'http://localhost:8081',
             'http://localhost:8082'
         ];
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        // Allow local network IPs (e.g., http://192.168.1.8:8081)
+        const isLocalNetwork = origin.startsWith('http://192.168.') || origin.startsWith('exp://');
+        if (allowedOrigins.indexOf(origin) !== -1 || isLocalNetwork) {
             callback(null, true);
         }
         else {
@@ -69,7 +75,11 @@ app.get('/health', (_req, res) => {
     });
 });
 // Error handler
-app.use((err, _req, res) => {
+app.use((
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+err, _req, res, 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+_next) => {
     console.error(err.stack);
     res.status(500).json({
         success: false,

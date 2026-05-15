@@ -1,0 +1,26 @@
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.siappanganbrebes.com/api",
+        "EXPO_PUBLIC_API_KEY": "spb-api-key-2026-s3cur3-k3y"
+      }
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.siappanganbrebes.com/api",
+        "EXPO_PUBLIC_API_KEY": "spb-api-key-2026-s3cur3-k3y"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
