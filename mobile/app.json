@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.haryyk.mobile"
+      "bundleIdentifier": "com.siappanganbrebes.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +19,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.haryyk.mobile"
+      "package": "com.siappanganbrebes.app"
     },
     "web": {
       "output": "static",
